@@ -1,9 +1,11 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -11,11 +13,19 @@ import javax.persistence.OneToMany;
 public class CatServico {
 	@Id
 	private String nomeCatServico;
-	private String descricaoServico;
+	private String descrCatServico;
 	
-	@OneToMany(mappedBy = "catServico")
-	private List<Servico> servicosLista;
+	@OneToMany(mappedBy = "catServico", fetch = FetchType.LAZY)
+	private List<Servico> servicosLista = new ArrayList<>();
 	
+	public List<Servico> getServicosLista() {
+		return servicosLista;
+	}
+
+	public void setServicosLista(List<Servico> servicosLista) {
+		this.servicosLista = servicosLista;
+	}
+
 	public String getNomeCatServico() {
 		return nomeCatServico;
 	}
@@ -24,22 +34,22 @@ public class CatServico {
 		this.nomeCatServico = nomeCatServico;
 	}
 
-	public String getDescricaoServico() {
-		return descricaoServico;
+	public String getDescrCatServico() {
+		return descrCatServico;
 	}
 
-	public void setDescricaoServico(String descricaoServico) {
-		this.descricaoServico = descricaoServico;
+	public void setDescrCatServico(String descrCatServico) {
+		this.descrCatServico = descrCatServico;
 	}
 
 	public CatServico() {
 		super();
 	}
 
-	public CatServico(String nomeCatServico, String descricaoServico) {
+	public CatServico(String nomeCatServico, String descrCatServico) {
 		super();
 		this.nomeCatServico = nomeCatServico;
-		this.descricaoServico = descricaoServico;
+		this.descrCatServico = descrCatServico;
 	}
 
 	@Override

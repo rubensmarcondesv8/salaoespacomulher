@@ -3,11 +3,14 @@ package com.elizelia.salaoespacomulher.domain;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Servico {
@@ -17,7 +20,8 @@ public class Servico {
 	private String nomeServico;
 	private String descrServico;
 	private BigDecimal precoBaseServico;
-	@ManyToOne
+	@JsonIgnore
+	@ManyToOne(cascade = { CascadeType.MERGE })
 	private CatServico catServico;
 	public Servico() {
 		super();
