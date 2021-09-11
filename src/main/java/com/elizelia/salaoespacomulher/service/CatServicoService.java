@@ -1,5 +1,6 @@
 package com.elizelia.salaoespacomulher.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,9 @@ public class CatServicoService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontra! Id: " + nomeCatServico + ", Tipo: " + CatServico.class.getName()));
 
+	}
+	
+	public List<CatServico> findAll(){
+		return repository.findAll();
 	}
 }
