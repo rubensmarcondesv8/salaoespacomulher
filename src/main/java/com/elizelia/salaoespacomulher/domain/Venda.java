@@ -1,15 +1,20 @@
 package com.elizelia.salaoespacomulher.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Venda {
@@ -18,8 +23,26 @@ public class Venda {
 	private Long idVenda;
 	private Date dataVenda;
 	private BigDecimal totalVenda;
-	@OneToMany(mappedBy = "itemVenda")
-	private List<ItemVenda> itensVenda;
+	@OneToMany(mappedBy = "Venda", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<ItemVenda> itensVenda = new ArrayList<>();
+	
+	@ManyToOne
+	private Cliente clienteVenda;
+
+	public Venda(Date dataVenda, Cliente clienteVenda) {
+		super();
+		this.dataVenda = dataVenda;
+		this.clienteVenda = clienteVenda;
+	}
+
+	public Cliente getClienteVenda() {
+		return clienteVenda;
+	}
+
+	public void setClienteVenda(Cliente clienteVenda) {
+		this.clienteVenda = clienteVenda;
+	}
 
 	public Venda() {
 	}
@@ -75,7 +98,7 @@ public class Venda {
 		if (getClass() != obj.getClass())
 			return false;
 		Venda other = (Venda) obj;
-		return Objects.equals(dataVenda, other.dataVenda);
+		return Objects.equals(idVenda, other.idVenda);
 	}
 	
 	

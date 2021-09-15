@@ -3,11 +3,14 @@ package com.elizelia.salaoespacomulher.domain;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ItemVenda {
@@ -15,20 +18,38 @@ public class ItemVenda {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idItem;
 	private Long quantidadeItem;
+	
 	@ManyToOne
 	private Produto itemProduto;
 	@ManyToOne
 	private Servico itemServico;
+	
 	private BigDecimal valorTotalItem;
+	
+	@JsonIgnore
+	@ManyToOne(cascade = { CascadeType.MERGE })
+	private Venda Venda;
+	
 	@ManyToOne
-	private Venda itemVenda;
+	private Profissional profissionalVenda;
 
 	public ItemVenda() {
 	}
 
-	public ItemVenda(Venda itemVenda) {
+	public ItemVenda(Venda Venda) {
 		super();
-		this.itemVenda = itemVenda;
+		this.Venda = Venda;
+	}
+
+	public ItemVenda(Long quantidadeItem, Produto itemProduto, Servico itemServico, BigDecimal valorTotalItem,
+			Venda Venda, Profissional profissionalVenda) {
+		super();
+		this.quantidadeItem = quantidadeItem;
+		this.itemProduto = itemProduto;
+		this.itemServico = itemServico;
+		this.valorTotalItem = valorTotalItem;
+		this.Venda = Venda;
+		this.profissionalVenda = profissionalVenda;
 	}
 
 	public Long getIdItem() {
@@ -71,12 +92,20 @@ public class ItemVenda {
 		this.valorTotalItem = valorTotalItem;
 	}
 
-	public Venda getItemVenda() {
-		return itemVenda;
+	public Venda getVenda() {
+		return Venda;
 	}
 
-	public void setItemVenda(Venda itemVenda) {
-		this.itemVenda = itemVenda;
+	public void setVenda(Venda Venda) {
+		this.Venda = Venda;
+	}
+
+	public Profissional getProfissionalVenda() {
+		return profissionalVenda;
+	}
+
+	public void setProfissionalVenda(Profissional profissionalVenda) {
+		this.profissionalVenda = profissionalVenda;
 	}
 
 	@Override

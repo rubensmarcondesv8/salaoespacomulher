@@ -31,8 +31,4 @@ public class ServicoDTO implements Serializable {
 	public void setPrecoBaseServico(BigDecimal precoBaseServico) {
 		this.precoBaseServico = precoBaseServico;
 	}
-	
-	
-	
-
 }

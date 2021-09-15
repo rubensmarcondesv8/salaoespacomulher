@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,14 +42,14 @@ public class CatServicoResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CatServico> create(@RequestBody CatServico obj){
+	public ResponseEntity<CatServico> create(@Valid @RequestBody CatServico obj){
 		obj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{nomeCatServico}").buildAndExpand(obj.getNomeCatServico()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value = "/{nomeCatServico}")
-	public ResponseEntity<CatServicoDTO> update(@PathVariable String nomeCatServico, @RequestBody CatServicoDTO objDTO ){
+	public ResponseEntity<CatServicoDTO> update(@Valid @PathVariable String nomeCatServico, @RequestBody CatServicoDTO objDTO ){
 		CatServico newObj = service.update(nomeCatServico, objDTO);
 		return ResponseEntity.ok().body(new CatServicoDTO(newObj));
 	}

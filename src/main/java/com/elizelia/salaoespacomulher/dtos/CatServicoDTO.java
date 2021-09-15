@@ -2,12 +2,15 @@ package com.elizelia.salaoespacomulher.dtos;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+
 import com.elizelia.salaoespacomulher.domain.CatServico;
 
 public class CatServicoDTO implements Serializable {
 	private static final long serialVersionUID = -3516175159395689751L;
 	
 	private String nomeCatServico;
+	@Column(nullable = false, unique = true, length = 100)
 	private String descrCatServico;
 	
 	public CatServicoDTO() {

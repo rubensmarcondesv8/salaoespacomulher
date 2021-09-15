@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Produto {
 	@Id
@@ -17,6 +19,7 @@ public class Produto {
 	private String nomeProduto;
 	private String descProduto;
 	private BigDecimal precoUnitario;
+	@JsonIgnore
 	@ManyToOne
 	private CatProduto catProduto;
 	

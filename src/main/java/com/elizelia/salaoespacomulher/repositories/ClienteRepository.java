@@ -3,9 +3,9 @@ package com.elizelia.salaoespacomulher.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.elizelia.salaoespacomulher.domain.CatProfissional;
+import com.elizelia.salaoespacomulher.domain.Cliente;
 
 @Repository
-public interface CatProfissionalRepository extends JpaRepository<CatProfissional, Long>{
-
+public interface ClienteRepository extends JpaRepository<Cliente, Long>{
+	
 }

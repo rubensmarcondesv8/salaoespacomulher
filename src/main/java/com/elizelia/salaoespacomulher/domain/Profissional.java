@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Profissional{
 	@Id
@@ -21,6 +23,7 @@ public class Profissional{
 	private String numeroCPF;
 	private String enderecoCompleto;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "profissionais", cascade = CascadeType.PERSIST)
 	private List<CatProfissional> catProfissional = new ArrayList<>();
 
