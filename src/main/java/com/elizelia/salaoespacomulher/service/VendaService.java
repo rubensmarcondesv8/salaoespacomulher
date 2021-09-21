@@ -38,7 +38,7 @@ public class VendaService {
 	public void updateData(Venda newObj, Venda obj) {
 		newObj.setDataVenda(obj.getDataVenda());
 		newObj.setClienteVenda(obj.getClienteVenda());
-		newObj.setTotalVenda(obj.getTotalVenda());
+		newObj.setTotalVenda();
 	}
 	
 	public void delete(Long idVenda) {

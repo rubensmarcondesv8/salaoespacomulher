@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,20 +45,20 @@ public class ProfissionalResource {
 	}
 
 	@PutMapping(value = "/{idProfissional}")
-	public ResponseEntity<Profissional> update(@PathVariable Long idProfissional, @RequestBody Profissional obj) {
+	public ResponseEntity<Profissional> update(@PathVariable Long idProfissional, @Valid @RequestBody Profissional obj) {
 		Profissional newObj = service.update(idProfissional, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 
 	@PatchMapping(value = "/{idProfissional}")
-	public ResponseEntity<Profissional> updatePatch(@PathVariable Long idProfissional, @RequestBody Profissional obj) {
+	public ResponseEntity<Profissional> updatePatch(@PathVariable Long idProfissional, @Valid @RequestBody Profissional obj) {
 		Profissional newObj = service.update(idProfissional, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 
 	@PostMapping
 	public ResponseEntity<Profissional> create(@RequestParam(value = "catProfissional", defaultValue = "0") Long idCatProfissional,
-			@RequestBody Profissional obj) {
+			@Valid @RequestBody Profissional obj) {
 		Profissional newObj = service.create(idCatProfissional, obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/profissional/{idProfissional}")
 				.buildAndExpand(newObj.getIdProfissional()).toUri();

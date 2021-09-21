@@ -1,27 +1,50 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@CrossOrigin("*")
 @Entity
-public class Produto {
+public class Produto implements Serializable{
+	
+	private static final long serialVersionUID = 9139809455524522355L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProduto;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeProduto;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descProduto;
+	
 	private BigDecimal precoUnitario;
+	
 	@JsonIgnore
 	@ManyToOne
 	private CatProduto catProduto;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "itemProduto", fetch = FetchType.LAZY)
+	private List<ItemVenda> itensVenda = new ArrayList<>();
 	
 	public Produto() {
 	}

@@ -2,7 +2,9 @@ package com.elizelia.salaoespacomulher.dtos;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.elizelia.salaoespacomulher.domain.CatProduto;
 
@@ -10,8 +12,12 @@ public class CatProdutoDTO implements Serializable{
 
 	private static final long serialVersionUID = -3479380782361675603L;
 	
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 4, max = 4, message = "Tamanho do campo incorreto.")
 	private String nomeCatProduto;
-	@Column(nullable = false, unique = true, length = 100)
+	
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descCatProduto;
 	
 	public CatProdutoDTO() {

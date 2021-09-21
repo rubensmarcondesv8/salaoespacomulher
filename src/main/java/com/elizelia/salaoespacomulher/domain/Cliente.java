@@ -1,19 +1,42 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@CrossOrigin("*")
 @Entity
-public class Cliente {
+public class Cliente implements Serializable{
+	
+	private static final long serialVersionUID = -417418587152594032L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCliente;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeCliente;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 10, max = 11, message = "Tamanho do campo incorreto.")
 	private String telefoneCliente;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "clienteVenda", fetch = FetchType.LAZY)
+	private List<Venda> listaVendas = new ArrayList<>();
 	
 	public Cliente() {
 		super();

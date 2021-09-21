@@ -1,5 +1,6 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -8,29 +9,42 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@CrossOrigin("*")
 @Entity
-public class ItemVenda {
+public class ItemVenda implements Serializable{
+	
+	private static final long serialVersionUID = 4722081701361157109L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idItem;
+	
 	private Long quantidadeItem;
 	
 	@ManyToOne
+	@JoinColumn
 	private Produto itemProduto;
+	
 	@ManyToOne
+	@JoinColumn
 	private Servico itemServico;
 	
 	private BigDecimal valorTotalItem;
 	
 	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.MERGE })
+	@JoinColumn
 	private Venda Venda;
 	
 	@ManyToOne
+	@JoinColumn
 	private Profissional profissionalVenda;
 
 	public ItemVenda() {
@@ -41,13 +55,17 @@ public class ItemVenda {
 		this.Venda = Venda;
 	}
 
-	public ItemVenda(Long quantidadeItem, Produto itemProduto, Servico itemServico, BigDecimal valorTotalItem,
+	public ItemVenda(Long quantidadeItem, Produto itemProduto, Servico itemServico,
 			Venda Venda, Profissional profissionalVenda) {
 		super();
 		this.quantidadeItem = quantidadeItem;
 		this.itemProduto = itemProduto;
 		this.itemServico = itemServico;
-		this.valorTotalItem = valorTotalItem;
+		if(itemProduto != null) {			
+			this.valorTotalItem = itemProduto.getPrecoUnitario().multiply(BigDecimal.valueOf(quantidadeItem));
+		}
+		if(itemServico != null) {
+			this.valorTotalItem = itemServico.getPrecoBaseServico().multiply(BigDecimal.valueOf(quantidadeItem));		}
 		this.Venda = Venda;
 		this.profissionalVenda = profissionalVenda;
 	}
@@ -73,7 +91,9 @@ public class ItemVenda {
 	}
 
 	public void setItemProduto(Produto itemProduto) {
-		this.itemProduto = itemProduto;
+		if(this.itemServico == null) {			
+			this.itemProduto = itemProduto;
+		}
 	}
 
 	public Servico getItemServico() {
@@ -81,15 +101,22 @@ public class ItemVenda {
 	}
 
 	public void setItemServico(Servico itemServico) {
-		this.itemServico = itemServico;
+		if(this.itemProduto == null) {			
+			this.itemServico = itemServico;
+		}
 	}
 
 	public BigDecimal getValorTotalItem() {
 		return valorTotalItem;
 	}
 
-	public void setValorTotalItem(BigDecimal valorTotalItem) {
-		this.valorTotalItem = valorTotalItem;
+	public void setValorTotalItem() {
+		if(itemProduto != null) {			
+			this.valorTotalItem = itemProduto.getPrecoUnitario().multiply(BigDecimal.valueOf(quantidadeItem));
+		}
+		if(itemServico != null) {
+			this.valorTotalItem = itemServico.getPrecoBaseServico().multiply(BigDecimal.valueOf(quantidadeItem));		}
+		
 	}
 
 	public Venda getVenda() {

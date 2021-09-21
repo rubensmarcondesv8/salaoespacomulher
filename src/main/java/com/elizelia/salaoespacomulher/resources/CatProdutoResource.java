@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class CatProdutoResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	@GetMapping
+	@CrossOrigin("*")
 	public ResponseEntity<List<CatProdutoDTO>> findAll(){
 		List<CatProduto> list = service.findAll();
 		List<CatProdutoDTO> listDTO = list.stream().map(obj -> new CatProdutoDTO(obj)).collect(Collectors.toList());
@@ -48,7 +50,7 @@ public class CatProdutoResource {
 	}
 	
 	@PutMapping(value = "/{nomeCatProduto}")
-	public ResponseEntity<CatProdutoDTO> update(@Valid @PathVariable String nomeCatProduto, @RequestBody CatProdutoDTO objDTO ){
+	public ResponseEntity<CatProdutoDTO> update(@PathVariable String nomeCatProduto, @Valid @RequestBody CatProdutoDTO objDTO ){
 		CatProduto newObj = service.update(nomeCatProduto, objDTO);
 		return ResponseEntity.ok().body(new CatProdutoDTO(newObj));
 	}

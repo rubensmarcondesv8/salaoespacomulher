@@ -1,28 +1,52 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@CrossOrigin("*")
 @Entity
-public class Servico {
+public class Servico implements Serializable{
+	
+	private static final long serialVersionUID = -6783103192865048837L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idServico;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeServico;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String descrServico;
+	
 	private BigDecimal precoBaseServico;
+	
 	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.MERGE })
 	private CatServico catServico;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "itemServico", fetch = FetchType.LAZY)
+	private List<ItemVenda> itensVenda = new ArrayList<>();
+	
 	public Servico() {
 		super();
 	}

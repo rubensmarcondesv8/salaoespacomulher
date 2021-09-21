@@ -13,4 +13,5 @@ import com.elizelia.salaoespacomulher.domain.ItemVenda;
 public interface ItemVendaRepository extends JpaRepository<ItemVenda, Long>{
 	@Query("SELECT obj FROM ItemVenda obj WHERE obj.Venda.idVenda = :idVenda ORDER BY idItem")
 	List<ItemVenda> findAllByIdVenda(@Param(value = "idVenda") Long idVenda);
+	
 }

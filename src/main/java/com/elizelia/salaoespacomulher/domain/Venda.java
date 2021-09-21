@@ -1,5 +1,6 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,29 +12,58 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@CrossOrigin("*")
 @Entity
-public class Venda {
+public class Venda implements Serializable{
+	
+	private static final long serialVersionUID = -4253162678476217325L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idVenda;
+	
 	private Date dataVenda;
-	private BigDecimal totalVenda;
-	@OneToMany(mappedBy = "Venda", fetch = FetchType.LAZY)
+	private BigDecimal totalVenda = new BigDecimal(0);
+
 	@JsonIgnore
+	@OneToMany(mappedBy = "Venda", fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<>();
 	
+	public void setTotalVenda(BigDecimal totalVenda) {
+		this.totalVenda = totalVenda;
+	}
+
+	@JsonIgnore
 	@ManyToOne
+	@JoinColumn
 	private Cliente clienteVenda;
 
 	public Venda(Date dataVenda, Cliente clienteVenda) {
 		super();
 		this.dataVenda = dataVenda;
 		this.clienteVenda = clienteVenda;
+	}
+	
+	
+
+	public Venda(Date dataVenda, BigDecimal totalVenda,
+			List<ItemVenda> itensVenda, Cliente clienteVenda) {
+		super();
+		this.dataVenda = dataVenda;
+		this.itensVenda = itensVenda;
+		this.clienteVenda = clienteVenda;
+		this.totalVenda = new BigDecimal(0);
+		for(ItemVenda item : this.getItensVenda()) {
+			this.totalVenda = this.totalVenda.add(item.getValorTotalItem());
+		}
 	}
 
 	public Cliente getClienteVenda() {
@@ -72,8 +102,11 @@ public class Venda {
 		return totalVenda;
 	}
 
-	public void setTotalVenda(BigDecimal totalVenda) {
-		this.totalVenda = totalVenda;
+	public void setTotalVenda() {
+		this.totalVenda = new BigDecimal(0);
+		for(ItemVenda item : this.getItensVenda()) {
+			this.totalVenda = this.totalVenda.add(item.getValorTotalItem());
+		}
 	}
 
 	public List<ItemVenda> getItensVenda() {
@@ -100,6 +133,4 @@ public class Venda {
 		Venda other = (Venda) obj;
 		return Objects.equals(idVenda, other.idVenda);
 	}
-	
-	
 }

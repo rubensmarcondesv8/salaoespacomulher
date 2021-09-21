@@ -3,6 +3,8 @@ package com.elizelia.salaoespacomulher.dtos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.elizelia.salaoespacomulher.domain.ItemVenda;
 import com.elizelia.salaoespacomulher.domain.Produto;
 import com.elizelia.salaoespacomulher.domain.Profissional;
@@ -14,12 +16,16 @@ public class ItemVendaDTO implements Serializable{
 	private static final long serialVersionUID = -910635064191748751L;
 	
 	private Long idItem;
+	@NotEmpty(message = "Campo necessário")
 	private Long quantidadeItem;
 	private Produto itemProduto;
 	private Servico itemServico;
 	private BigDecimal valorTotalItem;
-	private Venda itemVenda;
+	@NotEmpty(message = "Campo necessário")
+	private Venda Venda;
+	@NotEmpty(message = "Campo necessário")
 	private Profissional profissionalVenda;
+	
 	public ItemVendaDTO() {
 		super();
 	}
@@ -30,7 +36,7 @@ public class ItemVendaDTO implements Serializable{
 		this.itemProduto = obj.getItemProduto();
 		this.itemServico = obj.getItemServico();
 		this.valorTotalItem = obj.getValorTotalItem();
-		//this.itemVenda = obj.getItemVenda();
+		this.Venda = obj.getVenda();
 		this.profissionalVenda = obj.getProfissionalVenda();
 	}
 	public Long getIdItem() {
@@ -63,11 +69,11 @@ public class ItemVendaDTO implements Serializable{
 	public void setValorTotalItem(BigDecimal valorTotalItem) {
 		this.valorTotalItem = valorTotalItem;
 	}
-	public Venda getItemVenda() {
-		return itemVenda;
+	public Venda getVenda() {
+		return Venda;
 	}
-	public void setItemVenda(Venda itemVenda) {
-		this.itemVenda = itemVenda;
+	public void setItemVenda(Venda Venda) {
+		this.Venda = Venda;
 	}
 	public Profissional getProfissionalVenda() {
 		return profissionalVenda;

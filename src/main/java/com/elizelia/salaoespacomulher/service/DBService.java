@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.elizelia.salaoespacomulher.domain.CatProduto;
 import com.elizelia.salaoespacomulher.domain.CatProfissional;
 import com.elizelia.salaoespacomulher.domain.CatServico;
+import com.elizelia.salaoespacomulher.domain.Cliente;
 import com.elizelia.salaoespacomulher.domain.ItemVenda;
 import com.elizelia.salaoespacomulher.domain.Produto;
 import com.elizelia.salaoespacomulher.domain.Profissional;
@@ -20,6 +21,7 @@ import com.elizelia.salaoespacomulher.domain.Venda;
 import com.elizelia.salaoespacomulher.repositories.CatProdutoRepository;
 import com.elizelia.salaoespacomulher.repositories.CatProfissionalRepository;
 import com.elizelia.salaoespacomulher.repositories.CatServicoRepository;
+import com.elizelia.salaoespacomulher.repositories.ClienteRepository;
 import com.elizelia.salaoespacomulher.repositories.ItemVendaRepository;
 import com.elizelia.salaoespacomulher.repositories.ProdutoRepository;
 import com.elizelia.salaoespacomulher.repositories.ProfissionalRepository;
@@ -44,52 +46,81 @@ public class DBService {
 	private VendaRepository vendaRepository;
 	@Autowired
 	private ItemVendaRepository itemVendaRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
 
 	public void instanciaBaseDeDados() {
-		CatServico cabelo1 = new CatServico("CAB1", "Corte");
-		CatServico unha1 = new CatServico("UNH1", "Esmalte");
-		Servico servico1 = new Servico("COR1", "Corte de cabelo feminino", BigDecimal.valueOf(40), cabelo1);
-		Servico servico2 = new Servico("PE01", "Fazer unha do pé", BigDecimal.valueOf(20), unha1);
-		Servico servico3 = new Servico("MAO1", "Fazer unha da mão", BigDecimal.valueOf(22), unha1);
-		Servico servico4 = new Servico("TIN1", "Pintar cabelo", BigDecimal.valueOf(30), cabelo1);
+		CatProduto cab1 = new CatProduto("C001", "Produtos para lavar cabelo");
+		CatProduto maq1 = new CatProduto("M001", "Produtos para automaquiagem");
+		
+		Produto prod1 = new Produto("Shampoo1", "Shampoo Eudora Leite 500ml", BigDecimal.valueOf(13.50), cab1);
+		Produto prod2 = new Produto("Shampoo2", "Shampoo Oxx Erva Doce 300ml", BigDecimal.valueOf(10.80), cab1);
+		Produto prod3 = new Produto("Batom1", "Batom Matte Eudora Cores Diversas", BigDecimal.valueOf(6.15), maq1);
+		
+		List<Produto> listaProd = new ArrayList<>();
+		listaProd.add(prod1);
+		listaProd.add(prod1);
+		cab1.setProdutosLista(listaProd);
+		listaProd.clear();
+		listaProd.add(prod3);
+		maq1.setProdutosLista(listaProd);
+
+		this.catProdutoRepository.saveAll(Arrays.asList(cab1, maq1));
+		this.produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
 
 		CatProfissional cp1 = new CatProfissional("CPR2", "Cableleireira Parceira", BigDecimal.valueOf(0.15));
-		List<CatProfissional> categorias = new ArrayList<>();
-		categorias.add(cp1);
-		Profissional p1 = new Profissional("Elizelia Marcondes", "31999880011", "11111111111", categorias);
-		Profissional p2 = new Profissional("Michele Carina", "31999882222", "22222222222", categorias);
-
-		List<Profissional> prof = new ArrayList<>();
-		prof.add(p1);
-		prof.add(p2);
-		cp1.setProfissionais(prof);
-
-		CatProduto catpr1 = new CatProduto("CABELO", "Produtos para cabelo geral");
-		Produto prod1 = new Produto("Shampoo1", "Shampoo Eudora Leite 500ml", BigDecimal.valueOf(13.50), catpr1);
-		Produto prod2 = new Produto("Shampoo2", "Shampoo Oxx Erva Doce 300ml", BigDecimal.valueOf(10.80), catpr1);
-		List<Produto> prList = new ArrayList<>();
-		prList.add(prod1);
-		prList.add(prod2);
-
-		catpr1.setProdutosLista(prList);
-
-		Date d1 = new Date();
-		Venda venda1 = new Venda(d1);
-		ItemVenda item = new ItemVenda(venda1);
-		List<ItemVenda> lista = new ArrayList<>();
-		lista.add(item);
+		CatProfissional mp1 = new CatProfissional("MPR2", "Manicure Parceira", BigDecimal.valueOf(0.20));
+		
+		Profissional p1 = new Profissional("Elizelia Marcondes", "31999880011", "11111111111", "Rua 8, 88 - Rib. das Neves, MG");
+		Profissional p2 = new Profissional("Michele Carina", "31999882222", "22222222222", "Rua 6, 56 - BH, MG");
+		Profissional p3 = new Profissional("Keila Lorenzo", "31999883344", "33333333333", "Rua José, 110 - BH, MG");
+		
+		List<Profissional> listPro = new ArrayList<>();
+		listPro.addAll(Arrays.asList(p2, p1));
+		cp1.setProfissionais(listPro);
+		listPro.clear();
+		listPro.addAll(Arrays.asList(p2, p3));
+		mp1.setProfissionais(listPro);
+		
+		this.catProfissionalRepository.saveAll(Arrays.asList(cp1, mp1));
+		this.profissionalRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
+		
+		CatServico cabelo1 = new CatServico("CB01", "Corte");
+		CatServico unha1 = new CatServico("UN01", "Esmalte");
+		Servico servico1 = new Servico("Corte", "Corte de cabelo feminino", BigDecimal.valueOf(40), cabelo1);
+		Servico servico2 = new Servico("Esmalte pé", "Fazer unha do pé", BigDecimal.valueOf(20), unha1);
+		Servico servico3 = new Servico("Esmalte mão", "Fazer unha da mão", BigDecimal.valueOf(22), unha1);
+		Servico servico4 = new Servico("Tintura", "Pintar cabelo", BigDecimal.valueOf(30), cabelo1);
 
 		this.catServicoRepository.saveAll(Arrays.asList(cabelo1, unha1));
 		this.servicoRepository.saveAll(Arrays.asList(servico1, servico2, servico3, servico4));
+		
+		Date d1 = new Date();
 
-		this.catProfissionalRepository.saveAll(Arrays.asList(cp1));
-		this.profissionalRepository.saveAll(Arrays.asList(p1, p2));
-
-		this.catProdutoRepository.saveAll(Arrays.asList(catpr1));
-		this.produtoRepository.saveAll(Arrays.asList(prod1, prod2));
-
-		this.vendaRepository.saveAll(Arrays.asList(venda1));
-		this.itemVendaRepository.saveAll(Arrays.asList(item));
+		Cliente c1 = new Cliente("Cintia Marcondes", "31988778866");
+		Cliente c2 = new Cliente("Luzia Rosa", "31988770011");
+		Cliente c3 = new Cliente("Daniela Falcão", "31988007700");
+		Cliente c4 = new Cliente("Evaldo Pereira", "31990904477");
+		
+		Venda venda1 = new Venda(d1, c1);
+		Venda venda2 = new Venda(d1, c2);
+		Venda venda3 = new Venda(d1, c3);
+		Venda venda4 = new Venda(d1, c4);
+		
+		ItemVenda item1 = new ItemVenda(1L, prod1, null, venda1, p1);
+		ItemVenda item2 = new ItemVenda(3L, prod3, null, venda1, p1);
+		ItemVenda item3 = new ItemVenda(1L, null, servico1, venda2, p2);
+		ItemVenda item4 = new ItemVenda(1L, null, servico2, venda2, p3);
+		ItemVenda item5 = new ItemVenda(2L, prod2, null, venda3, p2);
+		ItemVenda item6 = new ItemVenda(1L, null, servico3, venda3, p2);
+		ItemVenda item7 = new ItemVenda(1L, null, servico4, venda4, p3);
+		ItemVenda item8 = new ItemVenda(5L, prod1, null, venda4, p1);
+		
+		
+		this.clienteRepository.saveAll(Arrays.asList(c1, c2, c3, c4));		
+		this.vendaRepository.saveAll(Arrays.asList(venda1, venda2, venda3, venda4));
+		this.itemVendaRepository.saveAll(Arrays.asList(item1, item2, item3, item4, item5, item6, item7, item8));
 	}
 
 }

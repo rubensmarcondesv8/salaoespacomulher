@@ -4,8 +4,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +36,7 @@ public class CatProfissionalResource {
 	}
 	
 	@GetMapping
+	@CrossOrigin("*")
 	public ResponseEntity<List<CatProfissionalDTO>> findAll(){
 		List<CatProfissional> list = service.findAll();
 		List<CatProfissionalDTO> listDTO = list.stream().map(obj -> new CatProfissionalDTO(obj)).collect(Collectors.toList());
@@ -40,14 +44,14 @@ public class CatProfissionalResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CatProfissional> create(@RequestBody CatProfissional obj){
+	public ResponseEntity<CatProfissional> create(@Valid @RequestBody CatProfissional obj){
 		CatProfissional newObj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("catprofissional/{idCatProfissional}").buildAndExpand(newObj.getIdCatProfissional()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value = "/{idCatProfissional}")
-	public ResponseEntity<CatProfissional> update(@PathVariable Long idCatProfissional, @RequestBody CatProfissional obj){
+	public ResponseEntity<CatProfissional> update(@PathVariable Long idCatProfissional, @Valid @RequestBody CatProfissional obj){
 		CatProfissional newObj = service.update(idCatProfissional, obj);
 		return ResponseEntity.ok().body(newObj);
 	}

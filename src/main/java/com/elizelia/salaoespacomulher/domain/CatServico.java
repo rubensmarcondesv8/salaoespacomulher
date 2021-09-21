@@ -1,5 +1,6 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -8,11 +9,23 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin(origins = "http://localhost:4200")
 @Entity
-public class CatServico {
+public class CatServico implements Serializable{
+	
+	private static final long serialVersionUID = 7762866734274085063L;
+	
 	@Id
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 4, max = 4, message = "Tamanho do campo incorreto.")
 	private String nomeCatServico;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descrCatServico;
 	
 	@OneToMany(mappedBy = "catServico", fetch = FetchType.LAZY)

@@ -2,6 +2,10 @@ package com.elizelia.salaoespacomulher.dtos;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.elizelia.salaoespacomulher.domain.Cliente;
 
 public class ClienteDTO implements Serializable{
@@ -9,7 +13,11 @@ public class ClienteDTO implements Serializable{
 	private static final long serialVersionUID = -6354479302924410372L;
 	
 	private Long idCliente;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeCliente;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String telefoneCliente;
 	
 	public ClienteDTO() {

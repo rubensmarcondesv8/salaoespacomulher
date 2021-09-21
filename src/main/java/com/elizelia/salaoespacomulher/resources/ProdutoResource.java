@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,20 +45,20 @@ public class ProdutoResource {
 	}
 
 	@PutMapping(value = "/{idProduto}")
-	public ResponseEntity<Produto> update(@PathVariable Long idProduto, @RequestBody Produto obj) {
+	public ResponseEntity<Produto> update(@PathVariable Long idProduto, @Valid @RequestBody Produto obj) {
 		Produto newObj = service.update(idProduto, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 
 	@PatchMapping(value = "/{idProduto}")
-	public ResponseEntity<Produto> updatePatch(@PathVariable Long idProduto, @RequestBody Produto obj) {
+	public ResponseEntity<Produto> updatePatch(@PathVariable Long idProduto, @Valid @RequestBody Produto obj) {
 		Produto newObj = service.update(idProduto, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 
 	@PostMapping
 	public ResponseEntity<Produto> create(@RequestParam(value = "catProduto", defaultValue = "0") String nomeCatProduto,
-			@RequestBody Produto obj) {
+			@Valid @RequestBody Produto obj) {
 		Produto newObj = service.create(nomeCatProduto, obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/servico/{idProduto}")
 				.buildAndExpand(newObj.getIdProduto()).toUri();

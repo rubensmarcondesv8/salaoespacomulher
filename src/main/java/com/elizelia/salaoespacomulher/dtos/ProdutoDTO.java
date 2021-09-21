@@ -3,6 +3,10 @@ package com.elizelia.salaoespacomulher.dtos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.elizelia.salaoespacomulher.domain.Produto;
 
 public class ProdutoDTO implements Serializable {
@@ -10,8 +14,13 @@ public class ProdutoDTO implements Serializable {
  static final long serialVersionUID = -218528037217817957L;
 
  	private Long idProduto;
+ 	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeProduto;
+ 	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descProduto;
+ 	@NotEmpty(message = "Campo necessário")
 	private BigDecimal precoUnitario;
 	
 	public ProdutoDTO() {

@@ -35,11 +35,9 @@ public class ItemVendaService {
 	private void updateData(ItemVenda newObj, ItemVenda obj) {
 		newObj.setItemProduto(obj.getItemProduto());
 		newObj.setItemServico(obj.getItemServico());
-		newObj.setVenda(obj.getVenda());
 		newObj.setProfissionalVenda(obj.getProfissionalVenda());
 		newObj.setQuantidadeItem(obj.getQuantidadeItem());
-		newObj.setValorTotalItem(obj.getValorTotalItem());
-		newObj.setVenda(newObj.getVenda());		
+		newObj.setValorTotalItem();		
 	}
 	public ItemVenda create(Long idVenda, ItemVenda obj) {
 		obj.setIdItem(null);

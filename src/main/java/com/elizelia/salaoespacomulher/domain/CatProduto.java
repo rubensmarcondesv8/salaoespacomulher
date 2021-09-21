@@ -1,18 +1,29 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin("*")
 @Entity
-public class CatProduto {
+public class CatProduto implements Serializable{
+	
+	private static final long serialVersionUID = 3361866691088870049L;
+	
 	@Id
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 4, max = 4, message = "Tamanho do campo incorreto.")
 	private String nomeCatProduto;
-	@Column(nullable = false, unique = true, length = 100)
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descCatProduto;
 	@OneToMany(mappedBy = "catProduto")
 	private List<Produto> produtosLista;

@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,20 +45,20 @@ public class ItemVendaResource {
 	}
 
 	@PutMapping(value = "/{idItem}")
-	public ResponseEntity<ItemVenda> update(@PathVariable Long idItem, @RequestBody ItemVenda obj) {
+	public ResponseEntity<ItemVenda> update(@PathVariable Long idItem, @Valid @RequestBody ItemVenda obj) {
 		ItemVenda newObj = service.update(idItem, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 
 	@PatchMapping(value = "/{idItem}")
-	public ResponseEntity<ItemVenda> updatePatch(@PathVariable Long idItem, @RequestBody ItemVenda obj) {
+	public ResponseEntity<ItemVenda> updatePatch(@PathVariable Long idItem, @Valid @RequestBody ItemVenda obj) {
 		ItemVenda newObj = service.update(idItem, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 
 	@PostMapping
 	public ResponseEntity<ItemVenda> create(@RequestParam(value = "Venda", defaultValue = "0") Long idVenda,
-			@RequestBody ItemVenda obj) {
+			@Valid @RequestBody ItemVenda obj) {
 		ItemVenda newObj = service.create(idVenda, obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/itemvenda/{idItem}")
 				.buildAndExpand(newObj.getIdItem()).toUri();

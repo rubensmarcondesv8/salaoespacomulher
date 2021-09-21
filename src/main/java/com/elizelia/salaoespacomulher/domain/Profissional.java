@@ -1,43 +1,65 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@CrossOrigin("*")
 @Entity
-public class Profissional{
+public class Profissional implements Serializable{
+	
+	private static final long serialVersionUID = 4471858427625233249L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProfissional;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeProfissional;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 10, max = 11, message = "Tamanho do campo incorreto.")
 	private String telefoneProfissional;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 11, max = 11, message = "Tamanho do campo incorreto.")
 	private String numeroCPF;
+	@NotEmpty(message = "Campo necessário")
+	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String enderecoCompleto;
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "profissionais", cascade = CascadeType.PERSIST)
 	private List<CatProfissional> catProfissional = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "profissionalVenda", fetch = FetchType.LAZY)
+	private List<ItemVenda> itensVenda = new ArrayList<>();
 
 	public Profissional() {
 		super();
 	}
 
-	public Profissional(String nomeProfissional, String telefoneProfissional, String numeroCPF,
-			List<CatProfissional> catProfissional) {
+	public Profissional(String nomeProfissional, String telefoneProfissional, String numeroCPF, String enderecoCompleto) {
 		super();
 		this.nomeProfissional = nomeProfissional;
 		this.telefoneProfissional = telefoneProfissional;
 		this.numeroCPF = numeroCPF;
-		this.catProfissional = catProfissional;
+		this.enderecoCompleto = enderecoCompleto;
 	}
 
 	public Long getIdProfissional() {
