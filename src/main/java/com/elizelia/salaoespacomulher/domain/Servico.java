@@ -12,6 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
@@ -39,6 +42,8 @@ public class Servico implements Serializable{
 	
 	private BigDecimal precoBaseServico;
 	
+	private Fornecedor fornecedor;
+	
 	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.MERGE })
 	private CatServico catServico;
@@ -46,6 +51,13 @@ public class Servico implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "itemServico", fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="FORNEC_SERVICO",
+	             joinColumns={@JoinColumn(name="idServico")},
+	             inverseJoinColumns={@JoinColumn(name="idFornecedor")})
+	private List<Fornecedor> listaFornecedores = new ArrayList<>();
 	
 	public Servico() {
 		super();
@@ -101,6 +113,12 @@ public class Servico implements Serializable{
 			return false;
 		Servico other = (Servico) obj;
 		return Objects.equals(idServico, other.idServico);
+	}
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 }

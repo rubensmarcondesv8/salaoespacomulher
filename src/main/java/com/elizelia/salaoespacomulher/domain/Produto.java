@@ -6,11 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
@@ -36,6 +40,10 @@ public class Produto implements Serializable{
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descProduto;
 	
+	private Long quantidadeEstoque;
+	
+	private Fornecedor fornecedor;
+	
 	private BigDecimal precoUnitario;
 	
 	@JsonIgnore
@@ -45,6 +53,13 @@ public class Produto implements Serializable{
 	@JsonIgnore
 	@OneToMany(mappedBy = "itemProduto", fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="FORNEC_PROD",
+	             joinColumns={@JoinColumn(name="idProduto")},
+	             inverseJoinColumns={@JoinColumn(name="idFornecedor")})
+	private List<Fornecedor> listaFornecedorProd = new ArrayList<>();
 	
 	public Produto() {
 	}
@@ -112,6 +127,22 @@ public class Produto implements Serializable{
 			return false;
 		Produto other = (Produto) obj;
 		return Objects.equals(idProduto, other.idProduto);
+	}
+
+	public Long getQuantidadeEstoque() {
+		return quantidadeEstoque;
+	}
+
+	public void setQuantidadeEstoque(Long quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 }

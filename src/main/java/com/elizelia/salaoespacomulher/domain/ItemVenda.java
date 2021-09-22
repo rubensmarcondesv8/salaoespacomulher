@@ -38,6 +38,9 @@ public class ItemVenda implements Serializable{
 	
 	private BigDecimal valorTotalItem;
 	
+	private BigDecimal descontoItem;
+	private BigDecimal acrescimoItem;
+	
 	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.MERGE })
 	@JoinColumn
@@ -56,7 +59,7 @@ public class ItemVenda implements Serializable{
 	}
 
 	public ItemVenda(Long quantidadeItem, Produto itemProduto, Servico itemServico,
-			Venda Venda, Profissional profissionalVenda) {
+			Profissional profissionalVenda) {
 		super();
 		this.quantidadeItem = quantidadeItem;
 		this.itemProduto = itemProduto;
@@ -66,7 +69,6 @@ public class ItemVenda implements Serializable{
 		}
 		if(itemServico != null) {
 			this.valorTotalItem = itemServico.getPrecoBaseServico().multiply(BigDecimal.valueOf(quantidadeItem));		}
-		this.Venda = Venda;
 		this.profissionalVenda = profissionalVenda;
 	}
 
@@ -150,6 +152,22 @@ public class ItemVenda implements Serializable{
 			return false;
 		ItemVenda other = (ItemVenda) obj;
 		return Objects.equals(idItem, other.idItem);
+	}
+
+	public BigDecimal getAcrescimoItem() {
+		return acrescimoItem;
+	}
+
+	public void setAcrescimoItem(BigDecimal acrescimoItem) {
+		this.acrescimoItem = acrescimoItem;
+	}
+
+	public BigDecimal getDescontoItem() {
+		return descontoItem;
+	}
+
+	public void setDescontoItem(BigDecimal descontoItem) {
+		this.descontoItem = descontoItem;
 	}
 	
 	

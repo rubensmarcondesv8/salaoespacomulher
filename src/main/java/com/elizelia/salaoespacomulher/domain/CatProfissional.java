@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
@@ -33,10 +31,7 @@ public class CatProfissional {
 	
 	private BigDecimal comissaoCobradaSalao;
 	
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "Cat_Prof",
-				joinColumns = @JoinColumn(name = "catProf_id", referencedColumnName = "idCatProfissional"),
-				inverseJoinColumns = @JoinColumn(name = "prof_id", referencedColumnName = "idProfissional"))
+	@ManyToMany(mappedBy="catProfissional", cascade = CascadeType.ALL)
 	private List<Profissional> profissionais = new ArrayList<>();
 
 	public Long getIdCatProfissional() {

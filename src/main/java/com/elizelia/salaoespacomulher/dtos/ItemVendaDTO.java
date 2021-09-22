@@ -9,7 +9,6 @@ import com.elizelia.salaoespacomulher.domain.ItemVenda;
 import com.elizelia.salaoespacomulher.domain.Produto;
 import com.elizelia.salaoespacomulher.domain.Profissional;
 import com.elizelia.salaoespacomulher.domain.Servico;
-import com.elizelia.salaoespacomulher.domain.Venda;
 
 public class ItemVendaDTO implements Serializable{
 	
@@ -21,8 +20,6 @@ public class ItemVendaDTO implements Serializable{
 	private Produto itemProduto;
 	private Servico itemServico;
 	private BigDecimal valorTotalItem;
-	@NotEmpty(message = "Campo necessário")
-	private Venda Venda;
 	@NotEmpty(message = "Campo necessário")
 	private Profissional profissionalVenda;
 	
@@ -36,7 +33,6 @@ public class ItemVendaDTO implements Serializable{
 		this.itemProduto = obj.getItemProduto();
 		this.itemServico = obj.getItemServico();
 		this.valorTotalItem = obj.getValorTotalItem();
-		this.Venda = obj.getVenda();
 		this.profissionalVenda = obj.getProfissionalVenda();
 	}
 	public Long getIdItem() {
@@ -69,12 +65,7 @@ public class ItemVendaDTO implements Serializable{
 	public void setValorTotalItem(BigDecimal valorTotalItem) {
 		this.valorTotalItem = valorTotalItem;
 	}
-	public Venda getVenda() {
-		return Venda;
-	}
-	public void setItemVenda(Venda Venda) {
-		this.Venda = Venda;
-	}
+	
 	public Profissional getProfissionalVenda() {
 		return profissionalVenda;
 	}

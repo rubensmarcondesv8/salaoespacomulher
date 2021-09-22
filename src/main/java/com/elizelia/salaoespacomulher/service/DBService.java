@@ -75,16 +75,12 @@ public class DBService {
 		Profissional p2 = new Profissional("Michele Carina", "31999882222", "22222222222", "Rua 6, 56 - BH, MG");
 		Profissional p3 = new Profissional("Keila Lorenzo", "31999883344", "33333333333", "Rua José, 110 - BH, MG");
 		
-		List<Profissional> listPro = new ArrayList<>();
-		listPro.addAll(Arrays.asList(p2, p1));
-		cp1.setProfissionais(listPro);
-		listPro.clear();
-		listPro.addAll(Arrays.asList(p2, p3));
-		mp1.setProfissionais(listPro);
+		p1.getCatProfissional().addAll(Arrays.asList(cp1));
+		p2.getCatProfissional().addAll(Arrays.asList(cp1, mp1));
+		p3.getCatProfissional().addAll(Arrays.asList(mp1));
 		
-		this.catProfissionalRepository.saveAll(Arrays.asList(cp1, mp1));
 		this.profissionalRepository.saveAll(Arrays.asList(p1, p2, p3));
-		
+		this.catProfissionalRepository.saveAll(Arrays.asList(mp1, cp1));
 		
 		CatServico cabelo1 = new CatServico("CB01", "Corte");
 		CatServico unha1 = new CatServico("UN01", "Esmalte");
@@ -103,20 +99,37 @@ public class DBService {
 		Cliente c3 = new Cliente("Daniela Falcão", "31988007700");
 		Cliente c4 = new Cliente("Evaldo Pereira", "31990904477");
 		
-		Venda venda1 = new Venda(d1, c1);
-		Venda venda2 = new Venda(d1, c2);
-		Venda venda3 = new Venda(d1, c3);
-		Venda venda4 = new Venda(d1, c4);
 		
-		ItemVenda item1 = new ItemVenda(1L, prod1, null, venda1, p1);
-		ItemVenda item2 = new ItemVenda(3L, prod3, null, venda1, p1);
-		ItemVenda item3 = new ItemVenda(1L, null, servico1, venda2, p2);
-		ItemVenda item4 = new ItemVenda(1L, null, servico2, venda2, p3);
-		ItemVenda item5 = new ItemVenda(2L, prod2, null, venda3, p2);
-		ItemVenda item6 = new ItemVenda(1L, null, servico3, venda3, p2);
-		ItemVenda item7 = new ItemVenda(1L, null, servico4, venda4, p3);
-		ItemVenda item8 = new ItemVenda(5L, prod1, null, venda4, p1);
+		ItemVenda item1 = new ItemVenda(1L, prod1, null, p1);
+		ItemVenda item2 = new ItemVenda(3L, prod3, null, p1);
+		ItemVenda item3 = new ItemVenda(1L, null, servico1, p2);
+		ItemVenda item4 = new ItemVenda(1L, null, servico2, p3);
+		ItemVenda item5 = new ItemVenda(2L, prod2, null, p2);
+		ItemVenda item6 = new ItemVenda(1L, null, servico3, p2);
+		ItemVenda item7 = new ItemVenda(1L, null, servico4, p3);
+		ItemVenda item8 = new ItemVenda(5L, prod1, null, p1);
 		
+		
+		List<ItemVenda> list = new ArrayList<>();
+		list.addAll(Arrays.asList(item1, item2));
+		Venda venda1 = new Venda(d1, list, c1);
+		item1.setVenda(venda1);
+		item2.setVenda(venda1);
+		list.clear();
+		list.addAll(Arrays.asList(item4, item3));
+		Venda venda2 = new Venda(d1, list, c2);
+		item3.setVenda(venda2);
+		item4.setVenda(venda2);
+		list.clear();
+		list.addAll(Arrays.asList(item5, item6));
+		Venda venda3 = new Venda(d1, list, c3);
+		item5.setVenda(venda3);
+		item6.setVenda(venda3);
+		list.clear();
+		list.addAll(Arrays.asList(item7, item8));
+		Venda venda4 = new Venda(d1, list, c4);
+		item7.setVenda(venda4);
+		item8.setVenda(venda4);
 		
 		this.clienteRepository.saveAll(Arrays.asList(c1, c2, c3, c4));		
 		this.vendaRepository.saveAll(Arrays.asList(venda1, venda2, venda3, venda4));

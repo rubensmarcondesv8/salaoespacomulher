@@ -11,8 +11,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
@@ -42,8 +45,15 @@ public class Profissional implements Serializable{
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String enderecoCompleto;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idContaCorrente", referencedColumnName = "idContaCorrente")
+	private ContaCorrente contacorrente;
+	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "profissionais", cascade = CascadeType.PERSIST)
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="CATEG_PROFISSIONAL",
+	             joinColumns={@JoinColumn(name="idProfissional")},
+	             inverseJoinColumns={@JoinColumn(name="idCatProfissional")})
 	private List<CatProfissional> catProfissional = new ArrayList<>();
 	
 	@JsonIgnore
@@ -60,6 +70,23 @@ public class Profissional implements Serializable{
 		this.telefoneProfissional = telefoneProfissional;
 		this.numeroCPF = numeroCPF;
 		this.enderecoCompleto = enderecoCompleto;
+		this.contacorrente = new ContaCorrente(this);
+	}
+
+	public ContaCorrente getContacorrente() {
+		return contacorrente;
+	}
+
+	public void setContacorrente(ContaCorrente contacorrente) {
+		this.contacorrente = contacorrente;
+	}
+
+	public List<ItemVenda> getItensVenda() {
+		return itensVenda;
+	}
+
+	public void setItensVenda(List<ItemVenda> itensVenda) {
+		this.itensVenda = itensVenda;
 	}
 
 	public Long getIdProfissional() {

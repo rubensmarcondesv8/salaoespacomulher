@@ -54,8 +54,7 @@ public class Venda implements Serializable{
 	
 	
 
-	public Venda(Date dataVenda, BigDecimal totalVenda,
-			List<ItemVenda> itensVenda, Cliente clienteVenda) {
+	public Venda(Date dataVenda, List<ItemVenda> itensVenda, Cliente clienteVenda) {
 		super();
 		this.dataVenda = dataVenda;
 		this.itensVenda = itensVenda;

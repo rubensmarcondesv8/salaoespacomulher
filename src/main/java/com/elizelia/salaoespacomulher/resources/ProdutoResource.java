@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,10 +27,11 @@ import com.elizelia.salaoespacomulher.service.ProdutoService;
 
 @RestController
 @RequestMapping(value = "/produto")
+@CrossOrigin("*")
 public class ProdutoResource {
 	@Autowired
 	private ProdutoService service;
-
+	
 	@GetMapping(value = "/{idProduto}")
 	public ResponseEntity<Produto> findById(@PathVariable Long idProduto) {
 		Produto obj = service.findById(idProduto);
