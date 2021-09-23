@@ -53,9 +53,9 @@ public class DBService {
 		CatProduto cab1 = new CatProduto("C001", "Produtos para lavar cabelo");
 		CatProduto maq1 = new CatProduto("M001", "Produtos para automaquiagem");
 		
-		Produto prod1 = new Produto("Shampoo1", "Shampoo Eudora Leite 500ml", BigDecimal.valueOf(13.50), cab1);
-		Produto prod2 = new Produto("Shampoo2", "Shampoo Oxx Erva Doce 300ml", BigDecimal.valueOf(10.80), cab1);
-		Produto prod3 = new Produto("Batom1", "Batom Matte Eudora Cores Diversas", BigDecimal.valueOf(6.15), maq1);
+		Produto prod1 = new Produto("Shampoo1", "Shampoo Eudora Leite 500ml", BigDecimal.valueOf(13.50), cab1, BigDecimal.valueOf(0.10));
+		Produto prod2 = new Produto("Shampoo2", "Shampoo Oxx Erva Doce 300ml", BigDecimal.valueOf(10.80), cab1, BigDecimal.valueOf(0.15));
+		Produto prod3 = new Produto("Batom1", "Batom Matte Eudora Cores Diversas", BigDecimal.valueOf(6.15), maq1, BigDecimal.valueOf(0.10));
 		
 		List<Produto> listaProd = new ArrayList<>();
 		listaProd.add(prod1);
@@ -68,8 +68,8 @@ public class DBService {
 		this.catProdutoRepository.saveAll(Arrays.asList(cab1, maq1));
 		this.produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
 
-		CatProfissional cp1 = new CatProfissional("CPR2", "Cableleireira Parceira", BigDecimal.valueOf(0.15));
-		CatProfissional mp1 = new CatProfissional("MPR2", "Manicure Parceira", BigDecimal.valueOf(0.20));
+		CatProfissional cp1 = new CatProfissional("CPR2", "Cableleireira Parceira");
+		CatProfissional mp1 = new CatProfissional("MPR2", "Manicure Parceira");
 		
 		Profissional p1 = new Profissional("Elizelia Marcondes", "31999880011", "11111111111", "Rua 8, 88 - Rib. das Neves, MG");
 		Profissional p2 = new Profissional("Michele Carina", "31999882222", "22222222222", "Rua 6, 56 - BH, MG");
@@ -84,10 +84,10 @@ public class DBService {
 		
 		CatServico cabelo1 = new CatServico("CB01", "Corte");
 		CatServico unha1 = new CatServico("UN01", "Esmalte");
-		Servico servico1 = new Servico("Corte", "Corte de cabelo feminino", BigDecimal.valueOf(40), cabelo1);
-		Servico servico2 = new Servico("Esmalte pé", "Fazer unha do pé", BigDecimal.valueOf(20), unha1);
-		Servico servico3 = new Servico("Esmalte mão", "Fazer unha da mão", BigDecimal.valueOf(22), unha1);
-		Servico servico4 = new Servico("Tintura", "Pintar cabelo", BigDecimal.valueOf(30), cabelo1);
+		Servico servico1 = new Servico("Corte", "Corte de cabelo feminino", BigDecimal.valueOf(40), cabelo1, BigDecimal.valueOf(0.20));
+		Servico servico2 = new Servico("Esmalte pé", "Fazer unha do pé", BigDecimal.valueOf(20), unha1, BigDecimal.valueOf(0.30));
+		Servico servico3 = new Servico("Esmalte mão", "Fazer unha da mão", BigDecimal.valueOf(22), unha1, BigDecimal.valueOf(0.30));
+		Servico servico4 = new Servico("Tintura", "Pintar cabelo", BigDecimal.valueOf(30), cabelo1, BigDecimal.valueOf(0.25));
 
 		this.catServicoRepository.saveAll(Arrays.asList(cabelo1, unha1));
 		this.servicoRepository.saveAll(Arrays.asList(servico1, servico2, servico3, servico4));

@@ -46,6 +46,8 @@ public class Produto implements Serializable{
 	
 	private BigDecimal precoUnitario;
 	
+	private BigDecimal comissaoProduto;
+	
 	@JsonIgnore
 	@ManyToOne
 	private CatProduto catProduto;
@@ -64,12 +66,13 @@ public class Produto implements Serializable{
 	public Produto() {
 	}
 
-	public Produto(String nomeProduto, String descProduto, BigDecimal precoUnitario, CatProduto catProduto) {
+	public Produto(String nomeProduto, String descProduto, BigDecimal precoUnitario, CatProduto catProduto, BigDecimal comissaoProduto) {
 		super();
 		this.nomeProduto = nomeProduto;
 		this.descProduto = descProduto;
 		this.precoUnitario = precoUnitario;
 		this.catProduto = catProduto;
+		this.setComissaoProduto(comissaoProduto);
 	}
 
 	public Long getIdProduto() {
@@ -143,6 +146,14 @@ public class Produto implements Serializable{
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+
+	public BigDecimal getComissaoProduto() {
+		return comissaoProduto;
+	}
+
+	public void setComissaoProduto(BigDecimal comissaoProduto) {
+		this.comissaoProduto = comissaoProduto;
 	}
 
 }

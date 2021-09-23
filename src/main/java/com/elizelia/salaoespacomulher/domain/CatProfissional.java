@@ -1,6 +1,5 @@
 package com.elizelia.salaoespacomulher.domain;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,8 +28,6 @@ public class CatProfissional {
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descCatProfissional;
 	
-	private BigDecimal comissaoCobradaSalao;
-	
 	@ManyToMany(mappedBy="catProfissional", cascade = CascadeType.ALL)
 	private List<Profissional> profissionais = new ArrayList<>();
 
@@ -46,19 +43,10 @@ public class CatProfissional {
 		super();
 	}
 
-	public CatProfissional(String nomeCatProfissional, String descCatProfissional, BigDecimal comissaoCobradaSalao) {
+	public CatProfissional(String nomeCatProfissional, String descCatProfissional) {
 		super();
 		this.nomeCatProfissional = nomeCatProfissional;
 		this.descCatProfissional = descCatProfissional;
-		this.comissaoCobradaSalao = comissaoCobradaSalao;
-	}
-
-	public BigDecimal getComissaoCobradaSalao() {
-		return comissaoCobradaSalao;
-	}
-
-	public void setComissaoCobradaSalao(BigDecimal comissaoCobradaSalao) {
-		this.comissaoCobradaSalao = comissaoCobradaSalao;
 	}
 
 	public String getNomeCatProfissional() {

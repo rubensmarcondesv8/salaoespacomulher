@@ -38,7 +38,6 @@ public class CatProfissionalService {
 	public void updateData(CatProfissional newObj, CatProfissional obj) {
 		newObj.setNomeCatProfissional(obj.getNomeCatProfissional());
 		newObj.setDescCatProfissional(obj.getDescCatProfissional());
-		newObj.setComissaoCobradaSalao(obj.getComissaoCobradaSalao());
 	}
 	
 	public void delete(Long idCatProfissional) {

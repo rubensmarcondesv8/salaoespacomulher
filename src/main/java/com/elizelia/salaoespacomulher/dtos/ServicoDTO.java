@@ -21,6 +21,8 @@ public class ServicoDTO implements Serializable {
 	@NotEmpty(message = "Campo necessário")
 	private BigDecimal precoBaseServico;
 	
+	private BigDecimal comissaoSalao;
+	
 	public ServicoDTO() {
 		super();
 	}
@@ -29,6 +31,7 @@ public class ServicoDTO implements Serializable {
 		this.nomeServico = obj.getNomeServico();
 		this.precoBaseServico = obj.getPrecoBaseServico();
 		this.descrServico = obj.getDescrServico();
+		this.setComissaoSalao(obj.getComissaoSalao());
 	}
 	public String getDescrServico() {
 		return descrServico;
@@ -47,5 +50,11 @@ public class ServicoDTO implements Serializable {
 	}
 	public void setPrecoBaseServico(BigDecimal precoBaseServico) {
 		this.precoBaseServico = precoBaseServico;
+	}
+	public BigDecimal getComissaoSalao() {
+		return comissaoSalao;
+	}
+	public void setComissaoSalao(BigDecimal comissaoSalao) {
+		this.comissaoSalao = comissaoSalao;
 	}
 }

@@ -35,6 +35,7 @@ public class ProdutoService {
 		newObj.setDescProduto(obj.getDescProduto());
 		newObj.setNomeProduto(obj.getNomeProduto());
 		newObj.setPrecoUnitario(obj.getPrecoUnitario());
+		newObj.setComissaoProduto(obj.getComissaoProduto());
 		
 	}
 	public Produto create(String nomeCatProduto, Produto obj) {

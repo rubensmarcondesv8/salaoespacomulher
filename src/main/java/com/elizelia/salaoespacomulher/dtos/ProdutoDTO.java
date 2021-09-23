@@ -22,6 +22,8 @@ public class ProdutoDTO implements Serializable {
 	private String descProduto;
  	@NotEmpty(message = "Campo necessário")
 	private BigDecimal precoUnitario;
+ 	
+ 	private BigDecimal comissaoProduto;
 	
 	public ProdutoDTO() {
 		super();
@@ -32,6 +34,7 @@ public class ProdutoDTO implements Serializable {
 		this.nomeProduto = obj.getNomeProduto();
 		this.descProduto = obj.getDescProduto();
 		this.precoUnitario = obj.getPrecoUnitario();
+		this.setComissaoProduto(obj.getComissaoProduto());
 	}
 	public Long getIdProduto() {
 		return idProduto;
@@ -56,6 +59,12 @@ public class ProdutoDTO implements Serializable {
 	}
 	public void setPrecoUnitario(BigDecimal precoUnitario) {
 		this.precoUnitario = precoUnitario;
+	}
+	public BigDecimal getComissaoProduto() {
+		return comissaoProduto;
+	}
+	public void setComissaoProduto(BigDecimal comissaoProduto) {
+		this.comissaoProduto = comissaoProduto;
 	}
 		
 }

@@ -1,7 +1,6 @@
 package com.elizelia.salaoespacomulher.dtos;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -17,8 +16,6 @@ public class CatProfissionalDTO implements Serializable{
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descCatProfissional;
-	@NotEmpty(message = "Campo necessário")
-	private BigDecimal comissaoCobradaSalao;
 	
 	public CatProfissionalDTO() {
 		super();
@@ -28,7 +25,6 @@ public class CatProfissionalDTO implements Serializable{
 		super();
 		this.nomeCatProfissional = obj.getNomeCatProfissional();
 		this.descCatProfissional = obj.getDescCatProfissional();
-		this.comissaoCobradaSalao = obj.getComissaoCobradaSalao();
 	}
 
 	public String getNomeCatProfissional() {
@@ -42,16 +38,9 @@ public class CatProfissionalDTO implements Serializable{
 	public String getDescCatProfissional() {
 		return descCatProfissional;
 	}
-
-	public void setDescCatProfissional(String descCatProfissional) {
+	
+	public void setDescCatprofissional(String descCatProfissional) {
 		this.descCatProfissional = descCatProfissional;
 	}
 
-	public BigDecimal getComissaoCobradaSalao() {
-		return comissaoCobradaSalao;
-	}
-
-	public void setComissaoCobradaSalao(BigDecimal comissaoCobradaSalao) {
-		this.comissaoCobradaSalao = comissaoCobradaSalao;
-	}
 }

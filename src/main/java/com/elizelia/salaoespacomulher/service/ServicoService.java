@@ -35,6 +35,7 @@ public class ServicoService {
 		newObj.setDescrServico(obj.getDescrServico());
 		newObj.setNomeServico(obj.getNomeServico());
 		newObj.setPrecoBaseServico(obj.getPrecoBaseServico());
+		newObj.setComissaoSalao(obj.getComissaoSalao());
 		
 	}
 	public Servico create(String nomeCatServico, Servico obj) {

@@ -42,6 +42,8 @@ public class Servico implements Serializable{
 	
 	private BigDecimal precoBaseServico;
 	
+	private BigDecimal comissaoSalao;
+	
 	private Fornecedor fornecedor;
 	
 	@JsonIgnore
@@ -62,11 +64,12 @@ public class Servico implements Serializable{
 	public Servico() {
 		super();
 	}
-	public Servico(String nomeServico, String descrServico, BigDecimal precoBaseServico, CatServico catServico) {
+	public Servico(String nomeServico, String descrServico, BigDecimal precoBaseServico, CatServico catServico, BigDecimal comissaoSalao) {
 		super();
 		this.nomeServico = nomeServico;
 		this.descrServico = descrServico;
 		this.precoBaseServico = precoBaseServico;
+		this.comissaoSalao = comissaoSalao;
 		this.catServico = catServico;
 	}
 	public Long getIdServico() {
@@ -119,6 +122,12 @@ public class Servico implements Serializable{
 	}
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+	public BigDecimal getComissaoSalao() {
+		return comissaoSalao;
+	}
+	public void setComissaoSalao(BigDecimal comissaoSalao) {
+		this.comissaoSalao = comissaoSalao;
 	}
 
 }
