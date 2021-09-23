@@ -2,15 +2,19 @@ package com.elizelia.salaoespacomulher.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -49,6 +53,22 @@ public class ItemVenda implements Serializable{
 	@ManyToOne
 	@JoinColumn
 	private Profissional profissionalVenda;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "catLancamento", fetch = FetchType.LAZY)
+	private List<Lancamento> listaLancamento = new ArrayList<>();
+
+	public List<Lancamento> getListaLancamento() {
+		return listaLancamento;
+	}
+
+	public void setListaLancamento(List<Lancamento> listaLancamento) {
+		this.listaLancamento = listaLancamento;
+	}
+
+	public void setValorTotalItem(BigDecimal valorTotalItem) {
+		this.valorTotalItem = valorTotalItem;
+	}
 
 	public ItemVenda() {
 	}
@@ -70,6 +90,8 @@ public class ItemVenda implements Serializable{
 		if(itemServico != null) {
 			this.valorTotalItem = itemServico.getPrecoBaseServico().multiply(BigDecimal.valueOf(quantidadeItem));		}
 		this.profissionalVenda = profissionalVenda;
+		
+		
 	}
 
 	public Long getIdItem() {

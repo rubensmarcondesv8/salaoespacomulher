@@ -25,6 +25,8 @@ public class Lancamento implements Serializable{
 	@JoinColumn
 	private CatLancamento catLancamento;
 	
+	@ManyToOne
+	@JoinColumn
 	private ItemVenda itemvenda;
 	
 	private BigDecimal valorLancamento;

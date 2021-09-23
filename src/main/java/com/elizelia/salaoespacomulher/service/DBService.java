@@ -9,20 +9,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.elizelia.salaoespacomulher.domain.CatLancamento;
 import com.elizelia.salaoespacomulher.domain.CatProduto;
 import com.elizelia.salaoespacomulher.domain.CatProfissional;
 import com.elizelia.salaoespacomulher.domain.CatServico;
 import com.elizelia.salaoespacomulher.domain.Cliente;
+import com.elizelia.salaoespacomulher.domain.Fornecedor;
 import com.elizelia.salaoespacomulher.domain.ItemVenda;
+import com.elizelia.salaoespacomulher.domain.Lancamento;
 import com.elizelia.salaoespacomulher.domain.Produto;
 import com.elizelia.salaoespacomulher.domain.Profissional;
 import com.elizelia.salaoespacomulher.domain.Servico;
 import com.elizelia.salaoespacomulher.domain.Venda;
+import com.elizelia.salaoespacomulher.repositories.CatLancamentoRepository;
 import com.elizelia.salaoespacomulher.repositories.CatProdutoRepository;
 import com.elizelia.salaoespacomulher.repositories.CatProfissionalRepository;
 import com.elizelia.salaoespacomulher.repositories.CatServicoRepository;
 import com.elizelia.salaoespacomulher.repositories.ClienteRepository;
+import com.elizelia.salaoespacomulher.repositories.FornecedorRepository;
 import com.elizelia.salaoespacomulher.repositories.ItemVendaRepository;
+import com.elizelia.salaoespacomulher.repositories.LancamentoRepository;
 import com.elizelia.salaoespacomulher.repositories.ProdutoRepository;
 import com.elizelia.salaoespacomulher.repositories.ProfissionalRepository;
 import com.elizelia.salaoespacomulher.repositories.ServicoRepository;
@@ -48,8 +54,20 @@ public class DBService {
 	private ItemVendaRepository itemVendaRepository;
 	@Autowired
 	private ClienteRepository clienteRepository;
+	@Autowired
+	private CatLancamentoRepository catLancamentoRepository;
+	@Autowired
+	private LancamentoRepository lancamentoRepository;
+	@Autowired 
+	private FornecedorRepository forncedorRepository;
 
 	public void instanciaBaseDeDados() {
+		
+		Fornecedor forn1 = new Fornecedor("Rubens da Silva", "31987654321", "observ");
+		Fornecedor forn2 = new Fornecedor("Lucy Barbosa", "31912345678","observ");
+		
+		this.forncedorRepository.saveAll(Arrays.asList(forn1, forn2));
+		
 		CatProduto cab1 = new CatProduto("C001", "Produtos para lavar cabelo");
 		CatProduto maq1 = new CatProduto("M001", "Produtos para automaquiagem");
 		
@@ -130,10 +148,30 @@ public class DBService {
 		Venda venda4 = new Venda(d1, list, c4);
 		item7.setVenda(venda4);
 		item8.setVenda(venda4);
+		list.addAll(Arrays.asList(item1, item2, item3, item4, item5, item6));
+		
+		CatLancamento clan1 = new CatLancamento("D", "Débito na conta");
+		CatLancamento clan2 = new CatLancamento("C", "Crédito na conta");
+		
+		
+		List<Lancamento> lancamentos = new ArrayList<>();
+		for(ItemVenda x:list) {
+			Lancamento lanc = new Lancamento();
+			lanc.setCatLancamento(clan2);
+			lanc.setItemvenda(x);
+			lanc.setValorLancamento(x.getValorTotalItem());
+			lanc.setContaCorrente(x.getProfissionalVenda().getContacorrente());
+			lancamentos.add(lanc);
+		}
 		
 		this.clienteRepository.saveAll(Arrays.asList(c1, c2, c3, c4));		
 		this.vendaRepository.saveAll(Arrays.asList(venda1, venda2, venda3, venda4));
 		this.itemVendaRepository.saveAll(Arrays.asList(item1, item2, item3, item4, item5, item6, item7, item8));
+		
+		this.catLancamentoRepository.saveAll(Arrays.asList(clan1, clan2));
+		for(Lancamento l:lancamentos) {
+			this.lancamentoRepository.save(l);
+		}
 	}
 
 }

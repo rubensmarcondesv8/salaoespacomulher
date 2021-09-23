@@ -1,5 +1,6 @@
 package com.elizelia.salaoespacomulher.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin("*")
 @Entity
-public class CatProfissional {
+public class CatProfissional implements Serializable{
+	
+	private static final long serialVersionUID = -4577398246150140461L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCatProfissional;
