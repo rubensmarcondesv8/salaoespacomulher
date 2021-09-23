@@ -27,6 +27,7 @@ import com.elizelia.salaoespacomulher.service.ClienteService;
 
 @RestController
 @RequestMapping(value = "/clientes")
+@CrossOrigin("*")
 public class ClienteResource {
 	@Autowired
 	private ClienteService service;
@@ -36,7 +37,7 @@ public class ClienteResource {
 		Cliente obj = service.findById(idCliente);
 		return ResponseEntity.ok().body(obj);
 	}
-	@CrossOrigin("*")
+	
 	@GetMapping
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 		List<Cliente> list = service.findAll();
@@ -60,7 +61,7 @@ public class ClienteResource {
 	public ResponseEntity<Cliente> create(@RequestParam(value = "catCliente", defaultValue = "0") Long idCatCliente,
 			@Valid @RequestBody Cliente obj) {
 		Cliente newObj = service.create(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/profissional/{idCliente}")
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/cliente/{idCliente}")
 				.buildAndExpand(newObj.getIdCliente()).toUri();
 		
 		return ResponseEntity.created(uri).build();

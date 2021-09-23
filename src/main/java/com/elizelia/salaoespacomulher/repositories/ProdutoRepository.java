@@ -12,6 +12,6 @@ import com.elizelia.salaoespacomulher.domain.Produto;
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long>{
 	@Query("SELECT obj FROM Produto obj WHERE obj.catProduto.nomeCatProduto = :nomeCatProduto ORDER BY nomeProduto")
-	List<Produto> findAllByCatProduto(@Param(value = "nomeCatProduto") String nomeCatServico);
+	List<Produto> findAllByCatProduto(@Param(value = "nomeCatProduto") String nomeCatProduto);
 
 }

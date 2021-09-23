@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.elizelia.salaoespacomulher.domain.ContaCorrente;
+import com.elizelia.salaoespacomulher.domain.Profissional;
 
 public class ContaCorrenteDTO implements Serializable{
 
@@ -19,6 +20,8 @@ public class ContaCorrenteDTO implements Serializable{
 	private String numeroContaCorrente;
 	
 	private BigDecimal saldoContaCorrente;
+	
+	private Profissional profissional;
 
 	public ContaCorrenteDTO() {
 		super();
@@ -29,6 +32,7 @@ public class ContaCorrenteDTO implements Serializable{
 		this.idContaCorrente = obj.getIdContaCorrente();
 		this.numeroContaCorrente = obj.getNumeroContaCorrente();
 		this.saldoContaCorrente = obj.getSaldoContaCorrente();
+		this.setProfissional(obj.getProfissional());
 	}
 
 	public Long getIdContaCorrente() {
@@ -53,6 +57,14 @@ public class ContaCorrenteDTO implements Serializable{
 
 	public void setSaldoContaCorrente(BigDecimal saldoContaCorrente) {
 		this.saldoContaCorrente = saldoContaCorrente;
+	}
+
+	public Profissional getProfissional() {
+		return profissional;
+	}
+
+	public void setProfissional(Profissional profissional) {
+		this.profissional = profissional;
 	}
 
 }
