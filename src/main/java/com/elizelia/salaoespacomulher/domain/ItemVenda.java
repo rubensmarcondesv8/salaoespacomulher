@@ -32,10 +32,12 @@ public class ItemVenda implements Serializable{
 	
 	private Long quantidadeItem;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private Produto itemProduto;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private Servico itemServico;
@@ -50,6 +52,7 @@ public class ItemVenda implements Serializable{
 	@JoinColumn
 	private Venda Venda;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private Profissional profissionalVenda;

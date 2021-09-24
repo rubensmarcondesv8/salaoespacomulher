@@ -45,6 +45,7 @@ public class Profissional implements Serializable{
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String enderecoCompleto;
 	
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idContaCorrente", referencedColumnName = "idContaCorrente")
 	private ContaCorrente contacorrente;

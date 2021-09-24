@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @CrossOrigin("*")
 @Entity
 public class Lancamento implements Serializable{
@@ -21,16 +23,19 @@ public class Lancamento implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idLancamento;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private CatLancamento catLancamento;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private ItemVenda itemvenda;
 	
 	private BigDecimal valorLancamento;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private ContaCorrente contaCorrente;

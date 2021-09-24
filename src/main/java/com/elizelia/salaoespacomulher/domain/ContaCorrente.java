@@ -33,6 +33,7 @@ public class ContaCorrente implements Serializable{
 	
 	private BigDecimal saldoContaCorrente;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy = "contacorrente")
 	private Profissional profissional;
 	

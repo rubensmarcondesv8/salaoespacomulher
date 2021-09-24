@@ -26,6 +26,7 @@ import com.elizelia.salaoespacomulher.repositories.CatProdutoRepository;
 import com.elizelia.salaoespacomulher.repositories.CatProfissionalRepository;
 import com.elizelia.salaoespacomulher.repositories.CatServicoRepository;
 import com.elizelia.salaoespacomulher.repositories.ClienteRepository;
+import com.elizelia.salaoespacomulher.repositories.ContaCorrenteRepository;
 import com.elizelia.salaoespacomulher.repositories.FornecedorRepository;
 import com.elizelia.salaoespacomulher.repositories.ItemVendaRepository;
 import com.elizelia.salaoespacomulher.repositories.LancamentoRepository;
@@ -60,6 +61,8 @@ public class DBService {
 	private LancamentoRepository lancamentoRepository;
 	@Autowired 
 	private FornecedorRepository forncedorRepository;
+	@Autowired 
+	private ContaCorrenteRepository contaCorrenteRepository;
 
 	public void instanciaBaseDeDados() {
 		
@@ -172,6 +175,22 @@ public class DBService {
 		for(Lancamento l:lancamentos) {
 			this.lancamentoRepository.save(l);
 		}
+		
+		List<Profissional> listaprof = new ArrayList<>();
+		listaprof.addAll(Arrays.asList(p1, p2, p3));
+		for(Profissional p:listaprof) {
+			List<Lancamento> lancProf = new ArrayList<>();
+			for(Lancamento l:lancamentos) {
+				if(l.getContaCorrente().getProfissional().getIdProfissional().equals(p.getIdProfissional())) {
+					lancProf.add(l);
+					p.getContacorrente().setSaldoContaCorrente(p.getContacorrente().getSaldoContaCorrente().add(l.getValorLancamento()));
+				}
+			}
+			p.getContacorrente().setExtratoContaCorrente(lancProf);
+		}
+		
+		this.contaCorrenteRepository.saveAll(Arrays.asList(p1.getContacorrente(), p2.getContacorrente(), p3.getContacorrente()));
+		
 	}
 
 }
