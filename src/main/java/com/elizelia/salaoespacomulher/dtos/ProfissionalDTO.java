@@ -1,15 +1,14 @@
 package com.elizelia.salaoespacomulher.dtos;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.GregorianCalendar;
 
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.elizelia.salaoespacomulher.domain.CatProfissional;
 import com.elizelia.salaoespacomulher.domain.Profissional;
+import com.elizelia.salaoespacomulher.domain.enums.CategProfissional;
 
 public class ProfissionalDTO implements Serializable{
 	
@@ -27,7 +26,10 @@ public class ProfissionalDTO implements Serializable{
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String enderecoCompleto;
 	
-	private List<CatProfissional> catProfissional = new ArrayList<>();
+	private GregorianCalendar dataNascProfissional;
+	
+	private CategProfissional categoriaPrincipal;
+	private CategProfissional categoriaAdicional;
 	
 	public ProfissionalDTO() {
 		super();
@@ -38,7 +40,9 @@ public class ProfissionalDTO implements Serializable{
 		this.telefoneProfissional = obj.getTelefoneProfissional();
 		this.numeroCPF = obj.getNumeroCPF();
 		this.enderecoCompleto = obj.getEnderecoCompleto();
-		this.catProfissional = obj.getCatProfissional();
+		this.categoriaPrincipal = obj.getCategoriaPrincipal();
+		this.categoriaAdicional = obj.getCategoriaAdicional();
+		this.dataNascProfissional = obj.getDataNascProfissional();
 	}
 	public String getNomeProfissional() {
 		return nomeProfissional;
@@ -64,11 +68,24 @@ public class ProfissionalDTO implements Serializable{
 	public void setEnderecoCompleto(String enderecoCompleto) {
 		this.enderecoCompleto = enderecoCompleto;
 	}
-	public List<CatProfissional> getCatProfissional() {
-		return catProfissional;
-	}
-	public void setCatProfissional(List<CatProfissional> catProfissional) {
-		this.catProfissional = catProfissional;
-	}
 	
+	public GregorianCalendar getDataNascProfissional() {
+		return dataNascProfissional;
+	}
+	public void setDataNascProfissional(GregorianCalendar dataNascProfissional) {
+		this.dataNascProfissional = dataNascProfissional;
+	}
+	public CategProfissional getCategoriaPrincipal() {
+		return categoriaPrincipal;
+	}
+	public void setCategoriaPrincipal(CategProfissional categoriaPrincipal) {
+		this.categoriaPrincipal = categoriaPrincipal;
+	}
+	public CategProfissional getCategoriaAdicional() {
+		return categoriaAdicional;
+	}
+	public void setCategoriaAdicional(CategProfissional categoriaAdicional) {
+		this.categoriaAdicional = categoriaAdicional;
+	}
+		
 }

@@ -2,22 +2,20 @@ package com.elizelia.salaoespacomulher.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.elizelia.salaoespacomulher.domain.enums.TipoLancamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -30,7 +28,6 @@ public class ItemVenda implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idItem;
 	
-	private Long quantidadeItem;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -42,6 +39,7 @@ public class ItemVenda implements Serializable{
 	@JoinColumn
 	private Servico itemServico;
 	
+	private Integer quantidadeItem;
 	private BigDecimal valorTotalItem;
 	
 	private BigDecimal descontoItem;
@@ -57,21 +55,14 @@ public class ItemVenda implements Serializable{
 	@JoinColumn
 	private Profissional profissionalVenda;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "catLancamento", fetch = FetchType.LAZY)
-	private List<Lancamento> listaLancamento = new ArrayList<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lanc_comissao_id", referencedColumnName = "idLancamento")
+	private Lancamento comissãoSalao;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lanc_pagamento_id", referencedColumnName = "idLancamento")
+	private Lancamento pagamentoProfissional;
 
-	public List<Lancamento> getListaLancamento() {
-		return listaLancamento;
-	}
-
-	public void setListaLancamento(List<Lancamento> listaLancamento) {
-		this.listaLancamento = listaLancamento;
-	}
-
-	public void setValorTotalItem(BigDecimal valorTotalItem) {
-		this.valorTotalItem = valorTotalItem;
-	}
 
 	public ItemVenda() {
 	}
@@ -81,22 +72,43 @@ public class ItemVenda implements Serializable{
 		this.Venda = Venda;
 	}
 
-	public ItemVenda(Long quantidadeItem, Produto itemProduto, Servico itemServico,
-			Profissional profissionalVenda) {
+	public ItemVenda(Integer quantidadeItem, Produto itemProduto, Profissional profissionalVenda, Profissional salao) {
 		super();
 		this.quantidadeItem = quantidadeItem;
 		this.itemProduto = itemProduto;
-		this.itemServico = itemServico;
-		if(itemProduto != null) {			
-			this.valorTotalItem = itemProduto.getPrecoUnitario().multiply(BigDecimal.valueOf(quantidadeItem));
-		}
-		if(itemServico != null) {
-			this.valorTotalItem = itemServico.getPrecoBaseServico().multiply(BigDecimal.valueOf(quantidadeItem));		}
 		this.profissionalVenda = profissionalVenda;
+		if(this.itemServico == null) {
+			this.setValorTotalItem();
+		}
+		BigDecimal comissao = new BigDecimal(0);
+		BigDecimal pagamento = new BigDecimal(0);
 		
+		comissao = this.valorTotalItem.multiply(this.getItemProduto().getComissaoProduto());
+		pagamento = this.valorTotalItem.subtract(comissao);
 		
+		this.comissãoSalao = new Lancamento(TipoLancamento.C, this, comissao, salao.getContacorrente(), this.getItemProduto().getNomeProduto());
+		this.pagamentoProfissional = new Lancamento(TipoLancamento.C, this, pagamento, this.getProfissionalVenda().getContacorrente(), this.getItemProduto().getNomeProduto());
 	}
-
+	
+	public ItemVenda(Integer quantidadeItem, Servico itemServico, Profissional profissionalVenda, Profissional salao) {
+		super();
+		this.quantidadeItem = quantidadeItem;
+		this.itemServico = itemServico;
+		this.profissionalVenda = profissionalVenda;
+		if(this.itemProduto == null) {
+			this.setValorTotalItem();
+		}
+		
+		BigDecimal comissao = new BigDecimal(0);
+		BigDecimal pagamento = new BigDecimal(0);
+		
+		comissao = this.valorTotalItem.multiply(this.getItemServico().getComissaoSalao());
+		pagamento = this.valorTotalItem.subtract(comissao);
+		
+		this.comissãoSalao = new Lancamento(TipoLancamento.C, this, comissao, salao.getContacorrente(), this.getItemServico().getNomeServico());
+		this.pagamentoProfissional = new Lancamento(TipoLancamento.C, this, pagamento, this.getProfissionalVenda().getContacorrente(), this.getItemServico().getNomeServico());
+	}
+	
 	public Long getIdItem() {
 		return idItem;
 	}
@@ -105,11 +117,11 @@ public class ItemVenda implements Serializable{
 		this.idItem = idItem;
 	}
 
-	public Long getQuantidadeItem() {
+	public Integer getQuantidadeItem() {
 		return quantidadeItem;
 	}
 
-	public void setQuantidadeItem(Long quantidadeItem) {
+	public void setQuantidadeItem(Integer quantidadeItem) {
 		this.quantidadeItem = quantidadeItem;
 	}
 
@@ -137,6 +149,10 @@ public class ItemVenda implements Serializable{
 		return valorTotalItem;
 	}
 
+	public void setValorTotalItem(BigDecimal valorTotalItem) {
+		this.valorTotalItem = valorTotalItem;
+	}
+	
 	public void setValorTotalItem() {
 		if(itemProduto != null) {			
 			this.valorTotalItem = itemProduto.getPrecoUnitario().multiply(BigDecimal.valueOf(quantidadeItem));
@@ -193,6 +209,22 @@ public class ItemVenda implements Serializable{
 
 	public void setDescontoItem(BigDecimal descontoItem) {
 		this.descontoItem = descontoItem;
+	}
+
+	public Lancamento getComissãoSalao() {
+		return comissãoSalao;
+	}
+
+	public void setComissãoSalao(Lancamento comissãoSalao) {
+		this.comissãoSalao = comissãoSalao;
+	}
+
+	public Lancamento getPagamentoProfissional() {
+		return pagamentoProfissional;
+	}
+
+	public void setPagamentoProfissional(Lancamento pagamentoProfissional) {
+		this.pagamentoProfissional = pagamentoProfissional;
 	}
 	
 	

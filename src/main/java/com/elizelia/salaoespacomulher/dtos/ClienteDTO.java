@@ -1,6 +1,7 @@
 package com.elizelia.salaoespacomulher.dtos;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -20,6 +21,8 @@ public class ClienteDTO implements Serializable{
 	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String telefoneCliente;
 	
+	private GregorianCalendar aniversarioCliente;
+	
 	public ClienteDTO() {
 		super();
 	}
@@ -28,6 +31,7 @@ public class ClienteDTO implements Serializable{
 		this.idCliente = obj.getIdCliente();
 		this.nomeCliente = obj.getNomeCliente();
 		this.telefoneCliente = obj.getTelefoneCliente();
+		this.aniversarioCliente = obj.getAniversarioCliente();
 	}
 	public Long getIdCliente() {
 		return idCliente;
@@ -46,6 +50,12 @@ public class ClienteDTO implements Serializable{
 	}
 	public void setTelefoneCliente(String telefoneCliente) {
 		this.telefoneCliente = telefoneCliente;
+	}
+	public GregorianCalendar getAniversarioCliente() {
+		return aniversarioCliente;
+	}
+	public void setAniversarioCliente(GregorianCalendar aniversarioCliente) {
+		this.aniversarioCliente = aniversarioCliente;
 	}
 	
 	

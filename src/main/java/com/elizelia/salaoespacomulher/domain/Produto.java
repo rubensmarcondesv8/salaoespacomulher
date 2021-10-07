@@ -6,22 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.elizelia.salaoespacomulher.domain.enums.CategProduto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -33,46 +29,37 @@ public class Produto implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProduto;
+	
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeProduto;
+	
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descProduto;
 	
-	private Long quantidadeEstoque;
-	
-	private Fornecedor fornecedor;
+	private Integer quantidadeEstoque;
 	
 	private BigDecimal precoUnitario;
 	
 	private BigDecimal comissaoProduto;
 	
-	@JsonIgnore
-	@ManyToOne
-	private CatProduto catProduto;
+	private CategProduto categoriaProduto;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "itemProduto", fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<>();
 	
-	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="FORNEC_PROD",
-	             joinColumns={@JoinColumn(name="idProduto")},
-	             inverseJoinColumns={@JoinColumn(name="idFornecedor")})
-	private List<Fornecedor> listaFornecedorProd = new ArrayList<>();
-	
 	public Produto() {
 	}
 
-	public Produto(String nomeProduto, String descProduto, BigDecimal precoUnitario, CatProduto catProduto, BigDecimal comissaoProduto) {
+	public Produto(String nomeProduto, String descProduto, BigDecimal precoUnitario, BigDecimal comissaoProduto, CategProduto categoriaProduto) {
 		super();
 		this.nomeProduto = nomeProduto;
 		this.descProduto = descProduto;
 		this.precoUnitario = precoUnitario;
-		this.catProduto = catProduto;
-		this.setComissaoProduto(comissaoProduto);
+		this.comissaoProduto = comissaoProduto;
+		this.categoriaProduto = categoriaProduto;
 	}
 
 	public Long getIdProduto() {
@@ -107,14 +94,6 @@ public class Produto implements Serializable{
 		this.precoUnitario = precoUnitario;
 	}
 
-	public CatProduto getCatProduto() {
-		return catProduto;
-	}
-
-	public void setCatProduto(CatProduto catProduto) {
-		this.catProduto = catProduto;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(idProduto);
@@ -132,20 +111,20 @@ public class Produto implements Serializable{
 		return Objects.equals(idProduto, other.idProduto);
 	}
 
-	public Long getQuantidadeEstoque() {
+	public List<ItemVenda> getItensVenda() {
+		return itensVenda;
+	}
+
+	public void setItensVenda(List<ItemVenda> itensVenda) {
+		this.itensVenda = itensVenda;
+	}
+
+	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;
 	}
 
-	public void setQuantidadeEstoque(Long quantidadeEstoque) {
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
 		this.quantidadeEstoque = quantidadeEstoque;
-	}
-
-	public Fornecedor getFornecedor() {
-		return fornecedor;
-	}
-
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
 	}
 
 	public BigDecimal getComissaoProduto() {
@@ -154,6 +133,14 @@ public class Produto implements Serializable{
 
 	public void setComissaoProduto(BigDecimal comissaoProduto) {
 		this.comissaoProduto = comissaoProduto;
+	}
+
+	public CategProduto getCategoriaProduto() {
+		return categoriaProduto;
+	}
+
+	public void setCategoriaProduto(CategProduto categoriaProduto) {
+		this.categoriaProduto = categoriaProduto;
 	}
 
 }

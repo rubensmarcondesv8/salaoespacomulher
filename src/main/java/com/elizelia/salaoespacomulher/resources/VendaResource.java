@@ -1,6 +1,5 @@
 package com.elizelia.salaoespacomulher.resources;
 
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.elizelia.salaoespacomulher.domain.ItemVenda;
 import com.elizelia.salaoespacomulher.domain.Venda;
 import com.elizelia.salaoespacomulher.dtos.VendaDTO;
 import com.elizelia.salaoespacomulher.service.VendaService;
@@ -33,11 +31,6 @@ public class VendaResource {
 	@GetMapping(value = "/{idVenda}")
 	public ResponseEntity<Venda> findById(@PathVariable long idVenda){
 		Venda obj = service.findById(idVenda);
-		BigDecimal total = new BigDecimal(0);
-		for(ItemVenda item : obj.getItensVenda()) {
-			total = total.add(item.getValorTotalItem());
-		}
-		obj.setTotalVenda(total);
 		return ResponseEntity.ok().body(obj);
 	}
 	

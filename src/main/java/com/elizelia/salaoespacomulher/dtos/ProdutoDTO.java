@@ -8,22 +8,37 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.elizelia.salaoespacomulher.domain.Produto;
+import com.elizelia.salaoespacomulher.domain.enums.CategProduto;
 
 public class ProdutoDTO implements Serializable {
 
  static final long serialVersionUID = -218528037217817957L;
 
  	private Long idProduto;
+ 	
  	@NotEmpty(message = "Campo necessário")
 	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeProduto;
+ 	
  	@NotEmpty(message = "Campo necessário")
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String descProduto;
+ 	
  	@NotEmpty(message = "Campo necessário")
 	private BigDecimal precoUnitario;
  	
- 	private BigDecimal comissaoProduto;
+ 	private Integer quantidadeEstoque;
+	
+ 	private CategProduto categoriaProduto;
+ 	
+ 	public Integer getQuantidadeEstoque() {
+		return quantidadeEstoque;
+	}
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
+	}
+	
+	private BigDecimal comissaoProduto;
 	
 	public ProdutoDTO() {
 		super();
@@ -34,7 +49,9 @@ public class ProdutoDTO implements Serializable {
 		this.nomeProduto = obj.getNomeProduto();
 		this.descProduto = obj.getDescProduto();
 		this.precoUnitario = obj.getPrecoUnitario();
-		this.setComissaoProduto(obj.getComissaoProduto());
+		this.comissaoProduto = obj.getComissaoProduto();
+		this.quantidadeEstoque = obj.getQuantidadeEstoque();
+		this.categoriaProduto = obj.getCategoriaProduto();
 	}
 	public Long getIdProduto() {
 		return idProduto;
@@ -65,6 +82,13 @@ public class ProdutoDTO implements Serializable {
 	}
 	public void setComissaoProduto(BigDecimal comissaoProduto) {
 		this.comissaoProduto = comissaoProduto;
+	}
+	
+	public CategProduto getCategoriaProduto() {
+		return categoriaProduto;
+	}
+	public void setCategoriaProduto(CategProduto categoriaProduto) {
+		this.categoriaProduto = categoriaProduto;
 	}
 		
 }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -58,8 +57,7 @@ public class ClienteResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Cliente> create(@RequestParam(value = "catCliente", defaultValue = "0") Long idCatCliente,
-			@Valid @RequestBody Cliente obj) {
+	public ResponseEntity<Cliente> create(@Valid @RequestBody Cliente obj) {
 		Cliente newObj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/cliente/{idCliente}")
 				.buildAndExpand(newObj.getIdCliente()).toUri();

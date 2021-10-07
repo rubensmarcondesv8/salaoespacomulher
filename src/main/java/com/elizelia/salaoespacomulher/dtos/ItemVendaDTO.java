@@ -7,7 +7,6 @@ import javax.validation.constraints.NotEmpty;
 
 import com.elizelia.salaoespacomulher.domain.ItemVenda;
 import com.elizelia.salaoespacomulher.domain.Produto;
-import com.elizelia.salaoespacomulher.domain.Profissional;
 import com.elizelia.salaoespacomulher.domain.Servico;
 
 public class ItemVendaDTO implements Serializable{
@@ -15,13 +14,18 @@ public class ItemVendaDTO implements Serializable{
 	private static final long serialVersionUID = -910635064191748751L;
 	
 	private Long idItem;
+	
 	@NotEmpty(message = "Campo necessário")
-	private Long quantidadeItem;
+	private Integer quantidadeItem;
+	
 	private Produto itemProduto;
+	
 	private Servico itemServico;
+	
 	private BigDecimal valorTotalItem;
-	@NotEmpty(message = "Campo necessário")
-	private Profissional profissionalVenda;
+	
+	private BigDecimal descontoItem;
+	private BigDecimal acrescimoItem;
 	
 	public ItemVendaDTO() {
 		super();
@@ -32,8 +36,9 @@ public class ItemVendaDTO implements Serializable{
 		this.quantidadeItem = obj.getQuantidadeItem();
 		this.itemProduto = obj.getItemProduto();
 		this.itemServico = obj.getItemServico();
+		this.acrescimoItem = obj.getAcrescimoItem();
+		this.descontoItem = obj.getDescontoItem();
 		this.valorTotalItem = obj.getValorTotalItem();
-		this.profissionalVenda = obj.getProfissionalVenda();
 	}
 	public Long getIdItem() {
 		return idItem;
@@ -41,10 +46,10 @@ public class ItemVendaDTO implements Serializable{
 	public void setIdItem(Long idItem) {
 		this.idItem = idItem;
 	}
-	public Long getQuantidadeItem() {
+	public Integer getQuantidadeItem() {
 		return quantidadeItem;
 	}
-	public void setQuantidadeItem(Long quantidadeItem) {
+	public void setQuantidadeItem(Integer quantidadeItem) {
 		this.quantidadeItem = quantidadeItem;
 	}
 	public Produto getItemProduto() {
@@ -66,11 +71,17 @@ public class ItemVendaDTO implements Serializable{
 		this.valorTotalItem = valorTotalItem;
 	}
 	
-	public Profissional getProfissionalVenda() {
-		return profissionalVenda;
+	public BigDecimal getDescontoItem() {
+		return descontoItem;
 	}
-	public void setProfissionalVenda(Profissional profissionalVenda) {
-		this.profissionalVenda = profissionalVenda;
+	public void setDescontoItem(BigDecimal descontoItem) {
+		this.descontoItem = descontoItem;
+	}
+	public BigDecimal getAcrescimoItem() {
+		return acrescimoItem;
+	}
+	public void setAcrescimoItem(BigDecimal acrescimoItem) {
+		this.acrescimoItem = acrescimoItem;
 	}
 
 }

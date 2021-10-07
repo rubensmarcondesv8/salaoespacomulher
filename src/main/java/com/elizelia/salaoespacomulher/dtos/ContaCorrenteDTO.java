@@ -15,6 +15,7 @@ public class ContaCorrenteDTO implements Serializable{
 	private static final long serialVersionUID = 6471844776954119856L;
 	
 	private Long idContaCorrente;
+	
 	@NotEmpty(message = "Campo Necessário")
 	@Length(min=11, max=11, message="Tamanho do campo incorreto")
 	private String numeroContaCorrente;
@@ -32,7 +33,7 @@ public class ContaCorrenteDTO implements Serializable{
 		this.idContaCorrente = obj.getIdContaCorrente();
 		this.numeroContaCorrente = obj.getNumeroContaCorrente();
 		this.saldoContaCorrente = obj.getSaldoContaCorrente();
-		this.setProfissional(obj.getProfissional());
+		this.profissional = obj.getProfissional();
 	}
 
 	public Long getIdContaCorrente() {

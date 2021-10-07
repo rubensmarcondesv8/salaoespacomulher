@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.elizelia.salaoespacomulher.domain.CatServico;
 import com.elizelia.salaoespacomulher.domain.Servico;
 import com.elizelia.salaoespacomulher.repositories.ServicoRepository;
 import com.elizelia.salaoespacomulher.service.exceptions.ObjectNotFoundException;
@@ -15,16 +14,15 @@ import com.elizelia.salaoespacomulher.service.exceptions.ObjectNotFoundException
 public class ServicoService {
 	@Autowired
 	private ServicoRepository repository;
-	@Autowired
-	private CatServicoService catServicoService;
+	
 	public Servico findById(Long idServico) {
 		Optional<Servico> obj = repository.findById(idServico);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado. Id: " + idServico + ". Tipo: " + Servico.class.getName()));
 	}
-	public List<Servico> findAll(String nomeCatServico) {
-		catServicoService.findById(nomeCatServico);
-		return repository.findAllbyCatServico(nomeCatServico);
+	public List<Servico> findAll() {
+		return repository.findAll();
 	}
+	
 	public Servico update(Long idServico, Servico obj) {
 		Servico newObj = findById(idServico);
 		updateData(newObj, obj);
@@ -36,17 +34,37 @@ public class ServicoService {
 		newObj.setNomeServico(obj.getNomeServico());
 		newObj.setPrecoBaseServico(obj.getPrecoBaseServico());
 		newObj.setComissaoSalao(obj.getComissaoSalao());
-		
+		newObj.setCategoriaServico(obj.getCategoriaServico());		
 	}
-	public Servico create(String nomeCatServico, Servico obj) {
+	
+	public Servico create(Servico obj) {
 		obj.setIdServico(null);
-		CatServico cat = catServicoService.findById(nomeCatServico);
-		obj.setCatServico(cat);
 		return repository.save(obj);
 	}
 	public void delete(Long idServico) {
 		Servico obj = findById(idServico);
 		repository.delete(obj);	
+	}
+	
+	public Servico updatePatch(Long idServico, Servico obj) {
+		Servico newObj = findById(idServico);
+		updatePatchData(newObj, obj);
+		return repository.save(newObj);
+	}
+	
+	private void updatePatchData(Servico newObj, Servico obj) {
+		if(obj.getDescrServico() != null) {
+			newObj.setDescrServico(obj.getDescrServico());
+		}
+		if(obj.getNomeServico() != null) {
+			newObj.setNomeServico(obj.getNomeServico());
+		}
+		if(obj.getPrecoBaseServico() != null) {
+			newObj.setPrecoBaseServico(obj.getPrecoBaseServico());
+		}
+		if(obj.getComissaoSalao() != null) {
+			newObj.setComissaoSalao(obj.getComissaoSalao());
+		}
 	}
 
 }

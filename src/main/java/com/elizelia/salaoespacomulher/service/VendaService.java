@@ -1,12 +1,16 @@
 package com.elizelia.salaoespacomulher.service;
 
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elizelia.salaoespacomulher.domain.Venda;
+import com.elizelia.salaoespacomulher.domain.enums.StatusVenda;
 import com.elizelia.salaoespacomulher.repositories.VendaRepository;
 import com.elizelia.salaoespacomulher.service.exceptions.ObjectNotFoundException;
 
@@ -36,9 +40,8 @@ public class VendaService {
 	}
 	
 	public void updateData(Venda newObj, Venda obj) {
-		newObj.setDataVenda(obj.getDataVenda());
-		newObj.setClienteVenda(obj.getClienteVenda());
-		newObj.setTotalVenda();
+		newObj.setDataHoraPagamentoVenda(new GregorianCalendar(TimeZone.getTimeZone("GMT-3"),new Locale("pt_BR")));
+		newObj.setStatusVenda(StatusVenda.P);
 	}
 	
 	public void delete(Long idVenda) {

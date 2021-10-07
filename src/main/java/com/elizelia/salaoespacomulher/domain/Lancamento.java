@@ -2,7 +2,10 @@ package com.elizelia.salaoespacomulher.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.elizelia.salaoespacomulher.domain.enums.TipoLancamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -23,15 +28,9 @@ public class Lancamento implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idLancamento;
 	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn
-	private CatLancamento catLancamento;
+	private TipoLancamento tipoLancamento;
 	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn
-	private ItemVenda itemvenda;
+	private String descrLancamento;
 	
 	private BigDecimal valorLancamento;
 	
@@ -39,18 +38,26 @@ public class Lancamento implements Serializable{
 	@ManyToOne
 	@JoinColumn
 	private ContaCorrente contaCorrente;
+	
+	private GregorianCalendar dataHoraLancamento = new GregorianCalendar(TimeZone.getTimeZone("GMT-3"),new Locale("pt_BR"));
+
+	@OneToOne(mappedBy = "comissãoSalao")
+	private ItemVenda item_com;
+	
+	@OneToOne(mappedBy = "pagamentoProfissional")
+	private ItemVenda item_pag;
 
 	public Lancamento() {
 		super();
 	}
 
-	public Lancamento(CatLancamento catLancamento, ItemVenda itemvenda, BigDecimal valorLancamento,
-			ContaCorrente contaCorrente) {
+	public Lancamento(TipoLancamento tipoLancamenot, ItemVenda itemvenda, BigDecimal valorLancamento,
+			ContaCorrente contaCorrente, String descrLancamento) {
 		super();
-		this.catLancamento = catLancamento;
-		this.itemvenda = itemvenda;
+		this.tipoLancamento = tipoLancamenot;
 		this.valorLancamento = valorLancamento;
 		this.contaCorrente = contaCorrente;
+		this.descrLancamento = descrLancamento;
 	}
 
 	public Long getIdLancamento() {
@@ -59,22 +66,6 @@ public class Lancamento implements Serializable{
 
 	public void setIdLancamento(Long idLancamento) {
 		this.idLancamento = idLancamento;
-	}
-
-	public CatLancamento getCatLancamento() {
-		return catLancamento;
-	}
-
-	public void setCatLancamento(CatLancamento catLancamento) {
-		this.catLancamento = catLancamento;
-	}
-
-	public ItemVenda getItemvenda() {
-		return itemvenda;
-	}
-
-	public void setItemvenda(ItemVenda itemvenda) {
-		this.itemvenda = itemvenda;
 	}
 
 	public BigDecimal getValorLancamento() {
@@ -108,6 +99,30 @@ public class Lancamento implements Serializable{
 			return false;
 		Lancamento other = (Lancamento) obj;
 		return Objects.equals(idLancamento, other.idLancamento);
+	}
+
+	public GregorianCalendar getDataHoraLancamento() {
+		return dataHoraLancamento;
+	}
+
+	public void setDataHoraLancamento(GregorianCalendar dataHoraLancamento) {
+		this.dataHoraLancamento = dataHoraLancamento;
+	}
+
+	public TipoLancamento getTipoLancamento() {
+		return tipoLancamento;
+	}
+
+	public void setTipoLancamento(TipoLancamento tipoLancamento) {
+		this.tipoLancamento = tipoLancamento;
+	}
+
+	public String getDescrLancamento() {
+		return descrLancamento;
+	}
+
+	public void setDescrLancamento(String descrLancamento) {
+		this.descrLancamento = descrLancamento;
 	}
 
 }

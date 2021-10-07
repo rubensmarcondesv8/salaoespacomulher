@@ -57,10 +57,10 @@ public class LancamentoResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Lancamento> create(@RequestParam(value = "catLancamento", defaultValue = "0") Long idCatLancamento, @RequestParam(value="idContaCorrente", defaultValue="0") Long idContaCorrente,
+	public ResponseEntity<Lancamento> create(@RequestParam(value="idContaCorrente", defaultValue="0") Long idContaCorrente,
 			@Valid @RequestBody Lancamento obj) {
-		Lancamento newObj = service.create(idCatLancamento, idContaCorrente, obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/lancamento/{idLancamento}/{idContaCorrente")
+		Lancamento newObj = service.create(idContaCorrente, obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/lancamento/{idLancamento}")
 				.buildAndExpand(newObj.getIdLancamento()).toUri();
 		
 		return ResponseEntity.created(uri).build();

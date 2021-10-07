@@ -2,6 +2,7 @@ package com.elizelia.salaoespacomulher.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,8 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
@@ -21,42 +20,45 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.elizelia.salaoespacomulher.domain.enums.CategProfissional;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
 @Entity
-public class Profissional implements Serializable{
-	
+public class Profissional implements Serializable {
+
 	private static final long serialVersionUID = 4471858427625233249L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProfissional;
+
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeProfissional;
+
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 10, max = 11, message = "Tamanho do campo incorreto.")
 	private String telefoneProfissional;
+
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 11, max = 11, message = "Tamanho do campo incorreto.")
 	private String numeroCPF;
+
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String enderecoCompleto;
-	
+
+	private GregorianCalendar dataNascProfissional;
+
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idContaCorrente", referencedColumnName = "idContaCorrente")
+	@JoinColumn(name = "idContaCorrente", referencedColumnName = "idContaCorrente")
 	private ContaCorrente contacorrente;
-	
-	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="CATEG_PROFISSIONAL",
-	             joinColumns={@JoinColumn(name="idProfissional")},
-	             inverseJoinColumns={@JoinColumn(name="idCatProfissional")})
-	private List<CatProfissional> catProfissional = new ArrayList<>();
-	
+
+	private CategProfissional categoriaPrincipal;
+	private CategProfissional categoriaAdicional;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "profissionalVenda", fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<>();
@@ -65,17 +67,20 @@ public class Profissional implements Serializable{
 		super();
 	}
 
-	public Profissional(String nomeProfissional, String telefoneProfissional, String numeroCPF, String enderecoCompleto) {
+	public Profissional(String nomeProfissional, String telefoneProfissional, String numeroCPF, String enderecoCompleto,
+			GregorianCalendar dataNascProfissional, CategProfissional categoriaPrincipal, CategProfissional categoriaAdicional) {
 		super();
 		this.nomeProfissional = nomeProfissional;
 		this.telefoneProfissional = telefoneProfissional;
 		this.numeroCPF = numeroCPF;
 		this.enderecoCompleto = enderecoCompleto;
-		this.contacorrente = new ContaCorrente(this);
+		this.dataNascProfissional = dataNascProfissional;
+		this.categoriaPrincipal = categoriaPrincipal;
+		this.categoriaAdicional = categoriaAdicional;
 	}
 
 	public ContaCorrente getContacorrente() {
-		return contacorrente;
+		return this.contacorrente;
 	}
 
 	public void setContacorrente(ContaCorrente contacorrente) {
@@ -130,14 +135,6 @@ public class Profissional implements Serializable{
 		this.enderecoCompleto = enderecoCompleto;
 	}
 
-	public List<CatProfissional> getCatProfissional() {
-		return catProfissional;
-	}
-
-	public void setCatProfissional(List<CatProfissional> catProfissional) {
-		this.catProfissional = catProfissional;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(idProfissional);
@@ -155,6 +152,28 @@ public class Profissional implements Serializable{
 		return Objects.equals(idProfissional, other.idProfissional);
 	}
 
-	
-	
+	public GregorianCalendar getDataNascProfissional() {
+		return dataNascProfissional;
+	}
+
+	public void setDataNascProfissional(GregorianCalendar dataNascProfissional) {
+		this.dataNascProfissional = dataNascProfissional;
+	}
+
+	public CategProfissional getCategoriaPrincipal() {
+		return categoriaPrincipal;
+	}
+
+	public void setCategoriaPrincipal(CategProfissional categoriaPrincipal) {
+		this.categoriaPrincipal = categoriaPrincipal;
+	}
+
+	public CategProfissional getCategoriaAdicional() {
+		return categoriaAdicional;
+	}
+
+	public void setCategoriaAdicional(CategProfissional categoriaAdicional) {
+		this.categoriaAdicional = categoriaAdicional;
+	}
+
 }

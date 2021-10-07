@@ -32,9 +32,6 @@ public class ContaCorrenteService {
 
 	private void updateData(ContaCorrente newObj, ContaCorrente obj) {
 		newObj.setExtratoContaCorrente(obj.getExtratoContaCorrente());
-		newObj.setIdContaCorrente(obj.getIdContaCorrente());
-		newObj.setNumeroContaCorrente(obj.getNumeroContaCorrente());
-		newObj.setProfissional(obj.getProfissional());
 		newObj.setSaldoContaCorrente(obj.getSaldoContaCorrente());
 	}
 

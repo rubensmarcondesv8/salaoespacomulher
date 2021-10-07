@@ -3,9 +3,11 @@ package com.elizelia.salaoespacomulher.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +20,7 @@ import javax.persistence.OneToMany;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.elizelia.salaoespacomulher.domain.enums.StatusVenda;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -30,33 +33,36 @@ public class Venda implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idVenda;
 	
-	private Date dataVenda;
 	private BigDecimal totalVenda = new BigDecimal(0);
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "Venda", fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<>();
 	
-	public void setTotalVenda(BigDecimal totalVenda) {
-		this.totalVenda = totalVenda;
-	}
 
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
 	private Cliente clienteVenda;
-
-	public Venda(Date dataVenda, Cliente clienteVenda) {
+	
+	private StatusVenda statusVenda = StatusVenda.A;
+	
+	private GregorianCalendar dataHoraAgendamento = new GregorianCalendar(TimeZone.getTimeZone("GMT-3"),new Locale("pt_BR"));
+	private GregorianCalendar dataHoraAtendimento;
+	private GregorianCalendar dataHoraFinalizado;
+	private GregorianCalendar dataHoraPagamentoVenda;
+	
+	public Venda() {
 		super();
-		this.dataVenda = dataVenda;
+	}
+
+	public Venda(Cliente clienteVenda) {
+		super();
 		this.clienteVenda = clienteVenda;
 	}
 	
-	
-
-	public Venda(Date dataVenda, List<ItemVenda> itensVenda, Cliente clienteVenda) {
+	public Venda(List<ItemVenda> itensVenda, Cliente clienteVenda) {
 		super();
-		this.dataVenda = dataVenda;
 		this.itensVenda = itensVenda;
 		this.clienteVenda = clienteVenda;
 		this.totalVenda = new BigDecimal(0);
@@ -64,7 +70,39 @@ public class Venda implements Serializable{
 			this.totalVenda = this.totalVenda.add(item.getValorTotalItem());
 		}
 	}
+	public GregorianCalendar getDataHoraAtendimento() {
+		return dataHoraAtendimento;
+	}
 
+	public void setDataHoraAtendimento(GregorianCalendar dataHoraAtendimento) {
+		this.dataHoraAtendimento = dataHoraAtendimento;
+	}
+
+	public GregorianCalendar getDataHoraFinalizado() {
+		return dataHoraFinalizado;
+	}
+
+	public void setDataHoraFinalizado(GregorianCalendar dataHoraFinalizado) {
+		this.dataHoraFinalizado = dataHoraFinalizado;
+	}
+
+	public GregorianCalendar getDataHoraAgendamento() {
+		return dataHoraAgendamento;
+	}
+
+	public void setDataHoraAgendamento(GregorianCalendar dataHoraAgendamento) {
+		this.dataHoraAgendamento = dataHoraAgendamento;
+	}
+
+	public StatusVenda getStatusVenda() {
+		return statusVenda;
+	}
+
+	public void setStatusVenda(StatusVenda statusVenda) {
+		this.statusVenda = statusVenda;
+	}
+
+	
 	public Cliente getClienteVenda() {
 		return clienteVenda;
 	}
@@ -73,39 +111,12 @@ public class Venda implements Serializable{
 		this.clienteVenda = clienteVenda;
 	}
 
-	public Venda() {
-	}
-
-	public Venda(Date dataVenda) {
-		super();
-		this.dataVenda = dataVenda;
-	}
-
 	public Long getIdVenda() {
 		return idVenda;
 	}
 
 	public void setIdVenda(Long idVenda) {
 		this.idVenda = idVenda;
-	}
-
-	public Date getDataVenda() {
-		return dataVenda;
-	}
-
-	public void setDataVenda(Date dataVenda) {
-		this.dataVenda = dataVenda;
-	}
-
-	public BigDecimal getTotalVenda() {
-		return totalVenda;
-	}
-
-	public void setTotalVenda() {
-		this.totalVenda = new BigDecimal(0);
-		for(ItemVenda item : this.getItensVenda()) {
-			this.totalVenda = this.totalVenda.add(item.getValorTotalItem());
-		}
 	}
 
 	public List<ItemVenda> getItensVenda() {
@@ -118,7 +129,7 @@ public class Venda implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dataVenda);
+		return Objects.hash(idVenda);
 	}
 
 	@Override
@@ -132,4 +143,22 @@ public class Venda implements Serializable{
 		Venda other = (Venda) obj;
 		return Objects.equals(idVenda, other.idVenda);
 	}
+
+	public GregorianCalendar getDataHoraPagamentoVenda() {
+		return dataHoraPagamentoVenda;
+	}
+
+	public void setDataHoraPagamentoVenda(GregorianCalendar dataHoraPagamentoVenda) {
+		this.dataHoraPagamentoVenda = dataHoraPagamentoVenda;
+	}
+
+	public BigDecimal getTotalVenda() {
+		return totalVenda;
+	}
+
+	public void setTotalVenda(BigDecimal totalVenda) {
+		this.totalVenda = totalVenda;
+	}
+	
+	
 }

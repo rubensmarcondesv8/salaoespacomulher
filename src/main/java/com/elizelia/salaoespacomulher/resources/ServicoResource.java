@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,9 +36,8 @@ public class ServicoResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ServicoDTO>> findAll(
-			@RequestParam(value = "catServico", defaultValue = "0") String nomeCatServico) {
-		List<Servico> list = service.findAll(nomeCatServico);
+	public ResponseEntity<List<ServicoDTO>> findAll() {
+		List<Servico> list = service.findAll();
 		List<ServicoDTO> listDTO = list.stream().map(obj -> new ServicoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
@@ -52,14 +50,13 @@ public class ServicoResource {
 
 	@PatchMapping(value = "/{idServico}")
 	public ResponseEntity<Servico> updatePatch(@PathVariable Long idServico, @Valid @RequestBody Servico obj) {
-		Servico newObj = service.update(idServico, obj);
+		Servico newObj = service.updatePatch(idServico, obj);
 		return ResponseEntity.ok().body(newObj);
 	}
 
 	@PostMapping
-	public ResponseEntity<Servico> create(@RequestParam(value = "catServico", defaultValue = "0") String nomeCatServico,
-			@Valid @RequestBody Servico obj) {
-		Servico newObj = service.create(nomeCatServico, obj);
+	public ResponseEntity<Servico> create(@Valid @RequestBody Servico obj) {
+		Servico newObj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/servico/{idServico}")
 				.buildAndExpand(newObj.getIdServico()).toUri();
 		

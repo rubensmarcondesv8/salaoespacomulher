@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -39,9 +38,8 @@ public class ProdutoResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ProdutoDTO>> findAll(
-			@RequestParam(value = "catProduto", defaultValue = "0") String nomeCatProduto) {
-		List<Produto> list = service.findAll(nomeCatProduto);
+	public ResponseEntity<List<ProdutoDTO>> findAll() {
+		List<Produto> list = service.findAll();
 		List<ProdutoDTO> listDTO = list.stream().map(obj -> new ProdutoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
@@ -59,10 +57,9 @@ public class ProdutoResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Produto> create(@RequestParam(value = "catProduto", defaultValue = "0") String nomeCatProduto,
-			@Valid @RequestBody Produto obj) {
-		Produto newObj = service.create(nomeCatProduto, obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/servico/{idProduto}")
+	public ResponseEntity<Produto> create(@Valid @RequestBody Produto obj) {
+		Produto newObj = service.create(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/produto/{idProduto}")
 				.buildAndExpand(newObj.getIdProduto()).toUri();
 		
 		return ResponseEntity.created(uri).build();

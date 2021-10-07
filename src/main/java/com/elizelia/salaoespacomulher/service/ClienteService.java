@@ -30,7 +30,8 @@ public class ClienteService {
 	
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNomeCliente(obj.getNomeCliente());
-		newObj.setTelefoneCliente(obj.getTelefoneCliente());		
+		newObj.setTelefoneCliente(obj.getTelefoneCliente());
+		newObj.setAniversarioCliente(obj.getAniversarioCliente());
 	}
 	
 	public Cliente create(Cliente obj) {

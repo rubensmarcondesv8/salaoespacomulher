@@ -2,6 +2,7 @@ package com.elizelia.salaoespacomulher.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,6 +34,8 @@ public class Cliente implements Serializable{
 	@NotEmpty(message = "Campo necessário")
 	@Length(min = 10, max = 11, message = "Tamanho do campo incorreto.")
 	private String telefoneCliente;
+	
+	private GregorianCalendar aniversarioCliente;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "clienteVenda", fetch = FetchType.LAZY)
@@ -87,6 +90,14 @@ public class Cliente implements Serializable{
 			return false;
 		Cliente other = (Cliente) obj;
 		return Objects.equals(idCliente, other.idCliente);
+	}
+
+	public GregorianCalendar getAniversarioCliente() {
+		return aniversarioCliente;
+	}
+
+	public void setAniversarioCliente(GregorianCalendar aniversarioCliente) {
+		this.aniversarioCliente = aniversarioCliente;
 	}
 	
 	

@@ -6,22 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import com.elizelia.salaoespacomulher.domain.enums.CategServico;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -44,33 +40,22 @@ public class Servico implements Serializable{
 	
 	private BigDecimal comissaoSalao;
 	
-	private Fornecedor fornecedor;
-	
-	@JsonIgnore
-	@ManyToOne(cascade = { CascadeType.MERGE })
-	private CatServico catServico;
+	private CategServico categoriaServico;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "itemServico", fetch = FetchType.LAZY)
 	private List<ItemVenda> itensVenda = new ArrayList<>();
 	
-	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="FORNEC_SERVICO",
-	             joinColumns={@JoinColumn(name="idServico")},
-	             inverseJoinColumns={@JoinColumn(name="idFornecedor")})
-	private List<Fornecedor> listaFornecedores = new ArrayList<>();
-	
 	public Servico() {
 		super();
 	}
-	public Servico(String nomeServico, String descrServico, BigDecimal precoBaseServico, CatServico catServico, BigDecimal comissaoSalao) {
+	public Servico(String nomeServico, String descrServico, BigDecimal precoBaseServico, CategServico categoriaServico, BigDecimal comissaoSalao) {
 		super();
 		this.nomeServico = nomeServico;
 		this.descrServico = descrServico;
 		this.precoBaseServico = precoBaseServico;
 		this.comissaoSalao = comissaoSalao;
-		this.catServico = catServico;
+		this.categoriaServico = categoriaServico;
 	}
 	public Long getIdServico() {
 		return idServico;
@@ -96,12 +81,7 @@ public class Servico implements Serializable{
 	public void setPrecoBaseServico(BigDecimal precoBaseServico) {
 		this.precoBaseServico = precoBaseServico;
 	}
-	public CatServico getCatServico() {
-		return catServico;
-	}
-	public void setCatServico(CatServico catServico) {
-		this.catServico = catServico;
-	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idServico);
@@ -117,17 +97,18 @@ public class Servico implements Serializable{
 		Servico other = (Servico) obj;
 		return Objects.equals(idServico, other.idServico);
 	}
-	public Fornecedor getFornecedor() {
-		return fornecedor;
-	}
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
-	}
+	
 	public BigDecimal getComissaoSalao() {
 		return comissaoSalao;
 	}
 	public void setComissaoSalao(BigDecimal comissaoSalao) {
 		this.comissaoSalao = comissaoSalao;
+	}
+	public CategServico getCategoriaServico() {
+		return categoriaServico;
+	}
+	public void setCategoriaServico(CategServico categoriaServico) {
+		this.categoriaServico = categoriaServico;
 	}
 
 }
