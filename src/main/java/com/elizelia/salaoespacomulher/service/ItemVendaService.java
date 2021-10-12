@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.elizelia.salaoespacomulher.domain.ItemVenda;
 import com.elizelia.salaoespacomulher.domain.Lancamento;
 import com.elizelia.salaoespacomulher.domain.Venda;
-import com.elizelia.salaoespacomulher.domain.enums.StatusVenda;
-import com.elizelia.salaoespacomulher.domain.enums.TipoLancamento;
 import com.elizelia.salaoespacomulher.repositories.ContaCorrenteRepository;
 import com.elizelia.salaoespacomulher.repositories.ItemVendaRepository;
 import com.elizelia.salaoespacomulher.service.exceptions.ObjectNotFoundException;
@@ -44,36 +42,36 @@ public class ItemVendaService {
 	
 	private void updateData(ItemVenda newObj, ItemVenda obj) {
 		newObj.setQuantidadeItem(obj.getQuantidadeItem());
-		if(obj.getItemProduto() != null && obj.getVenda().getStatusVenda().equals(StatusVenda.P)) {			
+		if(obj.getItemProduto() != null && obj.getVenda().getStatusVenda().equals("Pago")) {			
 			newObj.setItemProduto(obj.getItemProduto());
 			obj.setValorTotalItem(obj.getItemProduto().getPrecoUnitario().multiply(new BigDecimal(obj.getQuantidadeItem())));
 			
 			Lancamento pagamentoSalao = new Lancamento();
 			Lancamento comissaoProfissional = new Lancamento();			
 			
-			comissaoProfissional.setTipoLancamento(TipoLancamento.C);
+			comissaoProfissional.setTipoLancamento("Crédito");
 			comissaoProfissional.setValorLancamento(obj.getValorTotalItem().multiply(obj.getItemProduto().getComissaoProduto()));
 			comissaoProfissional.setDescrLancamento("Comissão - " + obj.getItemProduto().getNomeProduto());
 			
-			pagamentoSalao.setTipoLancamento(TipoLancamento.C);
+			pagamentoSalao.setTipoLancamento("Crédito");
 			pagamentoSalao.setValorLancamento(obj.getValorTotalItem().subtract(comissaoProfissional.getValorLancamento()));
 			pagamentoSalao.setDescrLancamento("Venda - " + obj.getItemProduto().getNomeProduto() + " - " + obj.getProfissionalVenda().getNomeProfissional());
 			
 			lancamentoService.create(obj.getProfissionalVenda().getContacorrente().getIdContaCorrente(), comissaoProfissional);
 			lancamentoService.create(contaRepository.findByNumeroContaCorrente("04691198623").getIdContaCorrente() , pagamentoSalao);		
 		}
-		if(obj.getItemServico() != null && obj.getVenda().getStatusVenda().equals(StatusVenda.P)) {			
+		if(obj.getItemServico() != null && obj.getVenda().getStatusVenda().equals("Pago")) {			
 			newObj.setItemServico(obj.getItemServico());
 			obj.setValorTotalItem(obj.getItemServico().getPrecoBaseServico().multiply(new BigDecimal(obj.getQuantidadeItem())));
 			
 			Lancamento comissaoSalao = new Lancamento();
 			Lancamento pagamentoProfissional = new Lancamento();
 			
-			comissaoSalao.setTipoLancamento(TipoLancamento.C);
+			comissaoSalao.setTipoLancamento("Crédito");
 			comissaoSalao.setValorLancamento(obj.getValorTotalItem().multiply(obj.getItemServico().getComissaoSalao()));
 			comissaoSalao.setDescrLancamento("Comissao - " + obj.getItemServico().getNomeServico() + " - " + obj.getProfissionalVenda().getNomeProfissional());
 			
-			pagamentoProfissional.setTipoLancamento(TipoLancamento.C);
+			pagamentoProfissional.setTipoLancamento("Crédito");
 			pagamentoProfissional.setValorLancamento(obj.getValorTotalItem().subtract(comissaoSalao.getValorLancamento()));
 			pagamentoProfissional.setDescrLancamento("Pgto - " + obj.getItemServico().getNomeServico());
 			

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.elizelia.salaoespacomulher.domain.ContaCorrente;
 import com.elizelia.salaoespacomulher.domain.Lancamento;
-import com.elizelia.salaoespacomulher.domain.enums.TipoLancamento;
 import com.elizelia.salaoespacomulher.repositories.LancamentoRepository;
 import com.elizelia.salaoespacomulher.service.exceptions.ObjectNotFoundException;
 
@@ -41,7 +40,7 @@ public class LancamentoService {
 		newObj.setDataHoraLancamento(new GregorianCalendar(TimeZone.getTimeZone("GMT-3"),new Locale("pt_BR")));
 		newObj.setDescrLancamento(obj.getDescrLancamento());
 		ContaCorrente conta = contaCorrenteService.findById(newObj.getContaCorrente().getIdContaCorrente());
-		if(obj.getTipoLancamento() == TipoLancamento.D) {
+		if(obj.getTipoLancamento().equals("Débito")) {
 			conta.setSaldoContaCorrente(conta.getSaldoContaCorrente().add(newObj.getValorLancamento()));
 			conta.setSaldoContaCorrente(conta.getSaldoContaCorrente().subtract(obj.getValorLancamento()));
 		}else {			
@@ -60,7 +59,7 @@ public class LancamentoService {
 	public Lancamento create( Long idContaCorrente, Lancamento obj) {
 		obj.setIdLancamento(null);
 		ContaCorrente conta = contaCorrenteService.findById(idContaCorrente);
-		if(obj.getTipoLancamento() == TipoLancamento.D) {
+		if(obj.getTipoLancamento().equals("Débito")) {
 			conta.setSaldoContaCorrente(conta.getSaldoContaCorrente().subtract(obj.getValorLancamento()));
 		}else {
 			conta.setSaldoContaCorrente(conta.getSaldoContaCorrente().add(obj.getValorLancamento()));
@@ -76,7 +75,7 @@ public class LancamentoService {
 	public void delete(Long idLancamento) {
 		Lancamento obj = findById(idLancamento);
 		ContaCorrente conta = contaCorrenteService.findById(obj.getContaCorrente().getIdContaCorrente());
-		if(obj.getTipoLancamento() == TipoLancamento.D) {
+		if(obj.getTipoLancamento().equals("Débito")) {
 			conta.setSaldoContaCorrente(conta.getSaldoContaCorrente().add(obj.getValorLancamento()));
 		}else {
 			conta.setSaldoContaCorrente(conta.getSaldoContaCorrente().subtract(obj.getValorLancamento()));

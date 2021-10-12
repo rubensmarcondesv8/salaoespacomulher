@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.elizelia.salaoespacomulher.domain.Profissional;
-import com.elizelia.salaoespacomulher.domain.enums.CategProfissional;
 
 public class ProfissionalDTO implements Serializable{
 	
@@ -26,10 +25,13 @@ public class ProfissionalDTO implements Serializable{
 	@Length(min = 3, max = 80, message = "Tamanho do campo incorreto.")
 	private String enderecoCompleto;
 	
+	@NotEmpty(message = "Campo necessário")
 	private GregorianCalendar dataNascProfissional;
 	
-	private CategProfissional categoriaPrincipal;
-	private CategProfissional categoriaAdicional;
+	@NotEmpty(message = "Campo necessário")
+	private String categoriaPrincipal;
+	@NotEmpty(message = "Campo necessário")
+	private String categoriaAdicional;
 	
 	public ProfissionalDTO() {
 		super();
@@ -75,16 +77,16 @@ public class ProfissionalDTO implements Serializable{
 	public void setDataNascProfissional(GregorianCalendar dataNascProfissional) {
 		this.dataNascProfissional = dataNascProfissional;
 	}
-	public CategProfissional getCategoriaPrincipal() {
+	public String getCategoriaPrincipal() {
 		return categoriaPrincipal;
 	}
-	public void setCategoriaPrincipal(CategProfissional categoriaPrincipal) {
+	public void setCategoriaPrincipal(String categoriaPrincipal) {
 		this.categoriaPrincipal = categoriaPrincipal;
 	}
-	public CategProfissional getCategoriaAdicional() {
+	public String getCategoriaAdicional() {
 		return categoriaAdicional;
 	}
-	public void setCategoriaAdicional(CategProfissional categoriaAdicional) {
+	public void setCategoriaAdicional(String categoriaAdicional) {
 		this.categoriaAdicional = categoriaAdicional;
 	}
 		

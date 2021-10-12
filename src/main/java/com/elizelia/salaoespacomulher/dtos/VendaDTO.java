@@ -11,7 +11,6 @@ import javax.validation.constraints.NotEmpty;
 import com.elizelia.salaoespacomulher.domain.Cliente;
 import com.elizelia.salaoespacomulher.domain.ItemVenda;
 import com.elizelia.salaoespacomulher.domain.Venda;
-import com.elizelia.salaoespacomulher.domain.enums.StatusVenda;
 
 public class VendaDTO implements Serializable{
 	private static final long serialVersionUID = 4220710453311622476L;
@@ -26,10 +25,10 @@ public class VendaDTO implements Serializable{
 	
 	private GregorianCalendar dataHoraPagamentoVenda;
 	
-	public StatusVenda getStatusVenda() {
+	public String getStatusVenda() {
 		return statusVenda;
 	}
-	public void setStatusVenda(StatusVenda statusVenda) {
+	public void setStatusVenda(String statusVenda) {
 		this.statusVenda = statusVenda;
 	}
 	public GregorianCalendar getDataHoraAgendamento() {
@@ -50,7 +49,7 @@ public class VendaDTO implements Serializable{
 	public void setDataHoraFinalizado(GregorianCalendar dataHoraFinalizado) {
 		this.dataHoraFinalizado = dataHoraFinalizado;
 	}
-	private StatusVenda statusVenda = StatusVenda.A;
+	private String statusVenda;
 	
 	private GregorianCalendar dataHoraAgendamento;
 	private GregorianCalendar dataHoraAtendimento;

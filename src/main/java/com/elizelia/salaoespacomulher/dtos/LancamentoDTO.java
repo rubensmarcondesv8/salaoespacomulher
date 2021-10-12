@@ -8,7 +8,6 @@ import java.util.TimeZone;
 
 import com.elizelia.salaoespacomulher.domain.ContaCorrente;
 import com.elizelia.salaoespacomulher.domain.Lancamento;
-import com.elizelia.salaoespacomulher.domain.enums.TipoLancamento;
 
 public class LancamentoDTO implements Serializable{
 
@@ -16,7 +15,7 @@ public class LancamentoDTO implements Serializable{
 	private Long idLancamento;
 	private BigDecimal valorLancamento;
 	private ContaCorrente contaCorrente;
-	private TipoLancamento tipoLancamento;
+	private String tipoLancamento;
 	private GregorianCalendar dataHoraLancamento = new GregorianCalendar(TimeZone.getTimeZone("GMT-3"),new Locale("pt_BR"));
 	
 	public GregorianCalendar getDataHoraLancamento() {
@@ -55,10 +54,10 @@ public class LancamentoDTO implements Serializable{
 	public void setContaCorrente(ContaCorrente contaCorrente) {
 		this.contaCorrente = contaCorrente;
 	}
-	public TipoLancamento getTipoLancamento() {
+	public String getTipoLancamento() {
 		return tipoLancamento;
 	}
-	public void setTipoLancamento(TipoLancamento tipoLancamento) {
+	public void setTipoLancamento(String tipoLancamento) {
 		this.tipoLancamento = tipoLancamento;
 	}
 

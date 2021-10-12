@@ -20,7 +20,6 @@ import javax.persistence.OneToMany;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.elizelia.salaoespacomulher.domain.enums.StatusVenda;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -45,7 +44,7 @@ public class Venda implements Serializable{
 	@JoinColumn
 	private Cliente clienteVenda;
 	
-	private StatusVenda statusVenda = StatusVenda.A;
+	private String statusVenda;
 	
 	private GregorianCalendar dataHoraAgendamento = new GregorianCalendar(TimeZone.getTimeZone("GMT-3"),new Locale("pt_BR"));
 	private GregorianCalendar dataHoraAtendimento;
@@ -94,11 +93,11 @@ public class Venda implements Serializable{
 		this.dataHoraAgendamento = dataHoraAgendamento;
 	}
 
-	public StatusVenda getStatusVenda() {
+	public String getStatusVenda() {
 		return statusVenda;
 	}
 
-	public void setStatusVenda(StatusVenda statusVenda) {
+	public void setStatusVenda(String statusVenda) {
 		this.statusVenda = statusVenda;
 	}
 

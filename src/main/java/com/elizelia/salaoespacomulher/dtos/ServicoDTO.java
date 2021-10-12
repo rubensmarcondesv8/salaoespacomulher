@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.elizelia.salaoespacomulher.domain.Servico;
-import com.elizelia.salaoespacomulher.domain.enums.CategServico;
 
 public class ServicoDTO implements Serializable {
 
@@ -29,7 +28,7 @@ public class ServicoDTO implements Serializable {
 	
 	private BigDecimal comissaoSalao;
 	
-	private CategServico categoriaServico;
+	private String categoriaServico;
 	
 	public ServicoDTO() {
 		super();
@@ -74,10 +73,10 @@ public class ServicoDTO implements Serializable {
 	public void setComissaoSalao(BigDecimal comissaoSalao) {
 		this.comissaoSalao = comissaoSalao;
 	}
-	public CategServico getCategoriaServico() {
+	public String getCategoriaServico() {
 		return categoriaServico;
 	}
-	public void setCategoriaServico(CategServico categoriaServico) {
+	public void setCategoriaServico(String categoriaServico) {
 		this.categoriaServico = categoriaServico;
 	}
 }

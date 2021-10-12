@@ -20,7 +20,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.elizelia.salaoespacomulher.domain.enums.CategProfissional;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -56,8 +55,8 @@ public class Profissional implements Serializable {
 	@JoinColumn(name = "idContaCorrente", referencedColumnName = "idContaCorrente")
 	private ContaCorrente contacorrente;
 
-	private CategProfissional categoriaPrincipal;
-	private CategProfissional categoriaAdicional;
+	private String categoriaPrincipal;
+	private String categoriaAdicional;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "profissionalVenda", fetch = FetchType.LAZY)
@@ -68,7 +67,7 @@ public class Profissional implements Serializable {
 	}
 
 	public Profissional(String nomeProfissional, String telefoneProfissional, String numeroCPF, String enderecoCompleto,
-			GregorianCalendar dataNascProfissional, CategProfissional categoriaPrincipal, CategProfissional categoriaAdicional) {
+			GregorianCalendar dataNascProfissional, String categoriaPrincipal, String categoriaAdicional) {
 		super();
 		this.nomeProfissional = nomeProfissional;
 		this.telefoneProfissional = telefoneProfissional;
@@ -160,19 +159,19 @@ public class Profissional implements Serializable {
 		this.dataNascProfissional = dataNascProfissional;
 	}
 
-	public CategProfissional getCategoriaPrincipal() {
+	public String getCategoriaPrincipal() {
 		return categoriaPrincipal;
 	}
 
-	public void setCategoriaPrincipal(CategProfissional categoriaPrincipal) {
+	public void setCategoriaPrincipal(String categoriaPrincipal) {
 		this.categoriaPrincipal = categoriaPrincipal;
 	}
 
-	public CategProfissional getCategoriaAdicional() {
+	public String getCategoriaAdicional() {
 		return categoriaAdicional;
 	}
 
-	public void setCategoriaAdicional(CategProfissional categoriaAdicional) {
+	public void setCategoriaAdicional(String categoriaAdicional) {
 		this.categoriaAdicional = categoriaAdicional;
 	}
 

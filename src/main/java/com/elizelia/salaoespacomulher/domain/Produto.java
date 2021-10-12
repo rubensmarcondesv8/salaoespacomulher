@@ -17,7 +17,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.elizelia.salaoespacomulher.domain.enums.CategProduto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -44,7 +43,7 @@ public class Produto implements Serializable{
 	
 	private BigDecimal comissaoProduto;
 	
-	private CategProduto categoriaProduto;
+	private String categoriaProduto;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "itemProduto", fetch = FetchType.LAZY)
@@ -53,7 +52,7 @@ public class Produto implements Serializable{
 	public Produto() {
 	}
 
-	public Produto(String nomeProduto, String descProduto, BigDecimal precoUnitario, BigDecimal comissaoProduto, CategProduto categoriaProduto) {
+	public Produto(String nomeProduto, String descProduto, BigDecimal precoUnitario, BigDecimal comissaoProduto, String categoriaProduto) {
 		super();
 		this.nomeProduto = nomeProduto;
 		this.descProduto = descProduto;
@@ -135,11 +134,11 @@ public class Produto implements Serializable{
 		this.comissaoProduto = comissaoProduto;
 	}
 
-	public CategProduto getCategoriaProduto() {
+	public String getCategoriaProduto() {
 		return categoriaProduto;
 	}
 
-	public void setCategoriaProduto(CategProduto categoriaProduto) {
+	public void setCategoriaProduto(String categoriaProduto) {
 		this.categoriaProduto = categoriaProduto;
 	}
 

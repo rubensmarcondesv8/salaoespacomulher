@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import com.elizelia.salaoespacomulher.domain.Produto;
-import com.elizelia.salaoespacomulher.domain.enums.CategProduto;
 
 public class ProdutoDTO implements Serializable {
 
@@ -29,7 +28,7 @@ public class ProdutoDTO implements Serializable {
  	
  	private Integer quantidadeEstoque;
 	
- 	private CategProduto categoriaProduto;
+ 	private String categoriaProduto;
  	
  	public Integer getQuantidadeEstoque() {
 		return quantidadeEstoque;
@@ -84,10 +83,10 @@ public class ProdutoDTO implements Serializable {
 		this.comissaoProduto = comissaoProduto;
 	}
 	
-	public CategProduto getCategoriaProduto() {
+	public String getCategoriaProduto() {
 		return categoriaProduto;
 	}
-	public void setCategoriaProduto(CategProduto categoriaProduto) {
+	public void setCategoriaProduto(String categoriaProduto) {
 		this.categoriaProduto = categoriaProduto;
 	}
 		

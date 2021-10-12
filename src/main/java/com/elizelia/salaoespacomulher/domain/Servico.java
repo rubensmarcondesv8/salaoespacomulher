@@ -17,7 +17,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.elizelia.salaoespacomulher.domain.enums.CategServico;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -40,7 +39,7 @@ public class Servico implements Serializable{
 	
 	private BigDecimal comissaoSalao;
 	
-	private CategServico categoriaServico;
+	private String categoriaServico;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "itemServico", fetch = FetchType.LAZY)
@@ -49,7 +48,7 @@ public class Servico implements Serializable{
 	public Servico() {
 		super();
 	}
-	public Servico(String nomeServico, String descrServico, BigDecimal precoBaseServico, CategServico categoriaServico, BigDecimal comissaoSalao) {
+	public Servico(String nomeServico, String descrServico, BigDecimal precoBaseServico, String categoriaServico, BigDecimal comissaoSalao) {
 		super();
 		this.nomeServico = nomeServico;
 		this.descrServico = descrServico;
@@ -104,10 +103,10 @@ public class Servico implements Serializable{
 	public void setComissaoSalao(BigDecimal comissaoSalao) {
 		this.comissaoSalao = comissaoSalao;
 	}
-	public CategServico getCategoriaServico() {
+	public String getCategoriaServico() {
 		return categoriaServico;
 	}
-	public void setCategoriaServico(CategServico categoriaServico) {
+	public void setCategoriaServico(String categoriaServico) {
 		this.categoriaServico = categoriaServico;
 	}
 

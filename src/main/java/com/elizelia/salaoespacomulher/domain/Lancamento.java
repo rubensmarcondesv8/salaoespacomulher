@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.elizelia.salaoespacomulher.domain.enums.TipoLancamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @CrossOrigin("*")
@@ -28,7 +27,7 @@ public class Lancamento implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idLancamento;
 	
-	private TipoLancamento tipoLancamento;
+	private String tipoLancamento;
 	
 	private String descrLancamento;
 	
@@ -51,7 +50,7 @@ public class Lancamento implements Serializable{
 		super();
 	}
 
-	public Lancamento(TipoLancamento tipoLancamenot, ItemVenda itemvenda, BigDecimal valorLancamento,
+	public Lancamento(String tipoLancamenot, ItemVenda itemvenda, BigDecimal valorLancamento,
 			ContaCorrente contaCorrente, String descrLancamento) {
 		super();
 		this.tipoLancamento = tipoLancamenot;
@@ -109,11 +108,11 @@ public class Lancamento implements Serializable{
 		this.dataHoraLancamento = dataHoraLancamento;
 	}
 
-	public TipoLancamento getTipoLancamento() {
+	public String getTipoLancamento() {
 		return tipoLancamento;
 	}
 
-	public void setTipoLancamento(TipoLancamento tipoLancamento) {
+	public void setTipoLancamento(String tipoLancamento) {
 		this.tipoLancamento = tipoLancamento;
 	}
 
