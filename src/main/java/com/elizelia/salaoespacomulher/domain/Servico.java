@@ -32,7 +32,7 @@ public class Servico implements Serializable{
 	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
 	private String nomeServico;
 	@NotEmpty(message = "Campo necessário")
-	@Length(min = 3, max = 50, message = "Tamanho do campo incorreto.")
+	@Length(min = 3, max = 100, message = "Tamanho do campo incorreto.")
 	private String descrServico;
 	
 	private BigDecimal precoBaseServico;
