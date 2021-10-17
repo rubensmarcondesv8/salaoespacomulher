@@ -20,7 +20,7 @@ public class ServicoDTO implements Serializable {
 	private String nomeServico;
 	
 	@NotEmpty(message = "Campo necessário")
-	@Length(min = 3, max = 0, message = "Tamanho do campo incorreto.")
+	@Length(min = 3, max = 100, message = "Tamanho do campo incorreto.")
 	private String descrServico;
 	
 	@NotEmpty(message = "Campo necessário")
